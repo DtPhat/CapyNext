@@ -1,21 +1,16 @@
 'use client'
-import React from 'react'
-import Flashcard from '@/app/ui/game/flashcard';
-import TranslatableSection from '@/app/ui/translation/translatable-section';
-import { Button, Card, CardBody, CardHeader, Chip, Menu, MenuHandler, MenuItem, MenuList } from '@material-tailwind/react';
-import { ChevronDownIcon, ChevronRightIcon, PlusIcon, RectangleGroupIcon, RectangleStackIcon } from '@heroicons/react/24/solid';
-import { CreateCollection } from '@/app/ui/collection/create';
-import Link from 'next/link';
-import Separator from '@/app/ui/common/separator';
-import { collection } from '@/app/lib/placeholder-data';
+import Flashcard from '@/app/game/game/flashcard';
+import { Collection, CollectionItem } from '@/lib/definitions';
+import { GameContext } from '@/providers/game';
+import { useContext } from 'react';
+import useSWR from 'swr';
 const GamePage = () => {
-  const data = {
-    question: "string 1",
-    answer: "string 2",
-  };
+
+  const { chosenCollection } = useContext(GameContext)
+  const { data } = useSWR<CollectionItem[]>('/vocabularies/' + chosenCollection?._id)
   return (
-    <div className=''>
-      <Flashcard data={collection}/>
+    <div className='text-black'>
+      <Flashcard data={data || []} />
     </div>
   )
 }

@@ -1,42 +1,51 @@
-"use client"
-import { TagIcon } from "@heroicons/react/24/solid";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Typography,
-  Avatar,
-  Tooltip,
-  Chip,
-} from "@material-tailwind/react";
-import Link from "next/link";
-import SearchBar from "../ui/common/searchbar";
-import MenuCheckbox from "../ui/common/menu-checkbox";
-import VideoCard from "../ui/video/card";
-import { ENGLISH_LEVELS } from "../lib/constants";
-import { videoList } from "../lib/placeholder-data";
-import { Video } from "../lib/definitions";
-export default function Videos() {
+import Container from "@/components/container";
+import FilterSelect, { ClearFilter } from "@/components/filter-select";
+import SearchBar from "@/components/search-bar";
+import { PlayCircleIcon } from "lucide-react";
+import { ENGLISH_LEVELS } from "../../lib/constants";
+import VideoList from "./_components/video-list";
+import { Suspense } from "react";
+import Loading from "../stories/loading";
+import { PaginationDemo } from "@/components/pagination";
+export default async function Videos({
+  searchParams,
+}: {
+  searchParams?: {
+    title?: string;
+    category?: string;
+    level?: string;
+  };
+}) {
   return (
-    <section className="px-16 py-8 flex flex-col gap-4 max-w-7xl">
-      <div className="grid grid-cols-2 border-b-2 pb-2 border-black/50">
-        <SearchBar placeholder="Search lessons..." />
-        <div className="flex justify-end items-center gap-4">
-          <MenuCheckbox name="Topic" checklist={["News", "Business", "Education", "Technology", "Entertainment", "History"]} />
-          <MenuCheckbox name="Level" checklist={ENGLISH_LEVELS} />
+    <div className="w-full">
+      <div className="relative">
+        <img src={"https://wallpapercave.com/wp/wp10261833.jpg"}
+          alt={""}
+          className="w-full object-cover h-[16rem]"
+        />
+        <div className="absolute-center font-bold text-white text-4xl">
+          <h1>Most interesting videos to learn.</h1>
+        </div>
+        <div className="absolute-center font-bold text-white text-4xl">
+          <PlayCircleIcon className="w-48 h-48 opacity-15" />
         </div>
       </div>
-      <div className="grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-        {
-          videoList.map((video : Video) =>
-            <Link href='/videos/video' key={video.title}>
-              <VideoCard data={video} />
-            </Link>
-          )
-        }
-      </div>
-    </section>
-
+      <Container>
+        <div className="grid grid-cols-1 xl:grid-cols-2 xl:gap-16 border-b-2 pb-2 border-black/50">
+          <div className="pt-2">
+            <SearchBar placeholder="Search videos..." />
+          </div>
+          <div className="flex justify-end items-center gap-4">
+            <FilterSelect name="category" checklist={["Science", "Culture", "Education", "Technology", "Entertainment", "History"]} />
+            <FilterSelect name="level" checklist={ENGLISH_LEVELS} />
+            <ClearFilter />
+          </div>
+        </div>
+        <Suspense fallback={<Loading />}>
+          <VideoList title={searchParams?.title} level={searchParams?.level} category={searchParams?.category} />
+        </Suspense>
+        <PaginationDemo />
+      </Container>
+    </div>
   );
 }

@@ -1,42 +1,48 @@
-"use client"
-import { TagIcon } from "@heroicons/react/24/solid";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Typography,
-  Avatar,
-  Tooltip,
-  Chip,
-} from "@material-tailwind/react";
-import Link from "next/link";
-import SearchBar from "../ui/common/searchbar";
-import MenuCheckbox from "../ui/common/menu-checkbox";
-import ReadingCard from "../ui/story/card";
-import { ENGLISH_LEVELS } from "../lib/constants";
-import { storyList } from "../lib/placeholder-data";
+import Container from "@/components/container";
+import FilterSelect, { ClearFilter } from "@/components/filter-select";
+import SearchBar from "@/components/search-bar";
+import { serverFetcher } from "@/lib/config/fetchter";
+import { ENGLISH_LEVELS } from "@/lib/constants";
+import StoriesCarousel from "./_components/carousel";
+import Storylist from "./_components/story-list";
+import { getStory } from "@/lib/actions/stories";
+import { Suspense } from "react";
+import Loading from "./loading";
+import { PaginationDemo } from "@/components/pagination";
 
-export default function Lessons() {
+export default async function Stories({
+  searchParams,
+}: {
+  searchParams?: {
+    title?: string;
+    category?: string;
+    level?: string;
+  };
+}) {
+  const carouselData = await Promise.all([
+    getStory('6657ecb46e94f467a7d5f1d0'),
+    getStory('6657ecd96e94f467a7d5f1d1'),
+    getStory('6656abf899f29ac57156ce09')
+  ])
   return (
-    <section className="px-16 py-8 flex flex-col gap-4 max-w-7xl">
-      <div className="grid grid-cols-2 border-b-2 pb-2 border-black/50">
-        <SearchBar placeholder="Search lessons..." />
-        <div className="flex justify-end items-center gap-4">
-          <MenuCheckbox name="Topic" checklist={["News", "Business", "Education", "Technology", "Entertainment"]} />
-          <MenuCheckbox name="Level" checklist={ENGLISH_LEVELS} />
+    <div className="w-full">
+      <StoriesCarousel
+        carouselData={carouselData}
+      />
+      <Container>
+        <div className="grid grid-cols-1 xl:grid-cols-2 xl:gap-16 border-b-2 pb-2 border-black/50">
+          <div className="pt-2">
+            <SearchBar placeholder="Search stories..." />
+          </div>
+          <div className="flex justify-end items-center gap-4">
+            <FilterSelect name="category" checklist={["News", "Business", "Education", "Technology", "Fantasy", "Adventure"]} />
+            <FilterSelect name="level" checklist={ENGLISH_LEVELS} />
+            <ClearFilter />
+          </div>
         </div>
-      </div>
-      <div className="grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-        {
-          storyList.map(item =>
-            <Link href='/stories/story' key={item.title}>
-              <ReadingCard data={item} />
-            </Link>
-          )
-        }
-      </div>
-    </section>
-
+        <Storylist title={searchParams?.title} level={searchParams?.level} category={searchParams?.category} />
+        <PaginationDemo />
+      </Container>
+    </div>
   );
 }

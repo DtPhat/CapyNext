@@ -1,19 +1,28 @@
-import type { Config } from "tailwindcss";
+import type { Config } from "tailwindcss"
 const withMT = require("@material-tailwind/react/utils/withMT");
-
-module.exports = withMT({
+const config = withMT({
+  darkMode: ["class"],
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
   ],
+  prefix: "",
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
       colors: {
         primary: "#2b8b59",
-        secondary: "#a1dabb",
-        tertiary: "#8eb84b",
-        accent: "#6fc6c1",
+        secondary: "#65C18B",
+        tertiary: "#D2FAE0",
+        accent: "#00C7FA",
         background: "#fcfdf9",
         foreground: "#ffffff",
         black: "#1c1d0b",
@@ -30,8 +39,42 @@ module.exports = withMT({
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        "wiggle": {
+          '0%, 100%': {
+              transform: 'rotate(-2deg)'
+          },
+          '50%': {
+              transform: 'rotate(2deg)'
+          },
+        },
+        "expand-contract": {
+          '0%': {
+            transform: 'scale(1.05)'
+            
+          },
+          '50%': {
+            transform: 'scale(1)'
+          }
+        }
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "wiggle": "wiggle 0.3s ease-in-out",
+        "expand-contract": "expand-contract 0.7s ease-in-out"
+      },
     },
   },
-  plugins: [],
-});
-// export default config;
+  plugins: [require("tailwindcss-animate")],
+}) satisfies Config
+
+export default config

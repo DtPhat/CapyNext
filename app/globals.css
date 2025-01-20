@@ -20,21 +20,44 @@
   }
 }
 
+
+
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom,
+  /* background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb)); */
 }
 
 
 
-@layer base {
-  
-}
+@layer base {}
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+
+  .absolute-center {
+    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+  }
+}
+
+.hero-gradient {
+  background: linear-gradient(97.86deg,
+      #2b8b59 0%,
+      #d9bc82 50.00%,
+      #65C18B 100%);
+}
+
+.feedback-gradient {
+  position: absolute;
+  width: 304px;
+  height: 100vh;
+  left: 30%;
+  top: 10%;
+
+  background: #2b8b59;
+  filter: blur(200px);
+  transform: rotate(-53.13deg);
 }
