@@ -23,7 +23,7 @@ import {
   PlusIcon,
   ArrowPathIcon
 } from "@heroicons/react/24/solid";
-import { CreateCollection } from "@/app/collections/_components/create";
+import { CreateCollection } from "@/components/collection";
 import Loader from "@/components/loader";
 import useSWR, { mutate } from "swr";
 import { Collection } from "@/lib/definitions";

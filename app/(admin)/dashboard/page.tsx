@@ -1,13 +1,12 @@
 'use client'
+import Container from "@/components/container";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/navigation-tabs";
-import { MainNav } from "./_components/main-nav";
-import { Overview } from "./_components/overview";
-import { RecentSales } from "./_components/recent-sales";
-import Container from "@/components/container";
+import { Tabs, TabsContent } from "@/components/ui/navigation-tabs";
 import { chartData } from "@/lib/placeholders";
 import Link from "next/link";
+import { Overview } from "../_components/overview";
+import { RecentSales } from "../_components/recent-sales";
 
 const tabData = {
   totalRevenue: chartData.reduce((total, item) => total + item.total, 0),

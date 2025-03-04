@@ -4,7 +4,7 @@ import SearchBar from '@/components/search-bar';
 import { Collection } from '@/lib/definitions';
 import useSWR from 'swr';
 import CollectionCard from './_components/card';
-import { CreateCollection } from './_components/create';
+import { CreateCollection } from '@/components/collection';
 import { CardSkeleton, CollectionCardSkeleton } from '@/components/skeleton';
 
 export default function Collections() {

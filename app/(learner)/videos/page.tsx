@@ -2,7 +2,7 @@ import Container from "@/components/container";
 import FilterSelect, { ClearFilter } from "@/components/filter-select";
 import SearchBar from "@/components/search-bar";
 import { PlayCircleIcon } from "lucide-react";
-import { ENGLISH_LEVELS } from "../../lib/constants";
+import { ENGLISH_LEVELS } from "@/lib/constants";
 import VideoList from "./_components/video-list";
 import { Suspense } from "react";
 import Loading from "../stories/loading";

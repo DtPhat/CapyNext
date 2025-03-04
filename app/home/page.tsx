@@ -13,8 +13,8 @@ import { Rocket } from 'lucide-react'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import { Suspense, useEffect, useState } from 'react'
-import { MiniStoryCard } from '../stories/_components/card'
-import { MiniVideoCard } from '../videos/_components/card'
+import { MiniStoryCard } from '../(learner)/stories/_components/card'
+import { MiniVideoCard } from '../(learner)/videos/_components/card'
 
 const Home = () => {
   const { login } = useAuth()
