@@ -1,13 +1,13 @@
 import { BASE_URL } from '@/lib/constants';
-import { Story } from '@/lib/definitions';
+import { PaginatedData, Story } from '@/lib/definitions';
 import Link from 'next/link';
 import React from 'react'
 import { MiniStoryCard } from './card';
-import { getStories } from '@/lib/actions/stories';
+import { getStories } from '../_lib/actions';
 
 const RelatedStories = async ({ currentId }: { currentId: string }) => {
-  const response = await getStories("", "", "", 1, 4)
-  const storyList: Story[] = response
+  const response : PaginatedData<Story> = await getStories("", "", "", 1, 4)
+  const storyList = response?.data || []
   return (
     <div className="grid grid-cols-4 gap-4">
       {

@@ -1,14 +1,14 @@
 import Container from "@/components/container";
-import FilterSelect, { ClearFilter } from "@/components/filter-select";
+import { ClearFilter, FilterSelect } from "@/components/filter-select";
 import SearchBar from "@/components/search-bar";
 import { serverFetcher } from "@/lib/config/fetchter";
 import { ENGLISH_LEVELS } from "@/lib/constants";
 import StoriesCarousel from "./_components/carousel";
-import Storylist from "./_components/story-list";
-import { getStory } from "@/lib/actions/stories";
+import StoryList from "./_components/story-list";
+import { getStory } from "./_lib/actions";
 import { Suspense } from "react";
 import Loading from "./loading";
-import { PaginationDemo } from "@/components/pagination";
+import { PaginationWrapper } from "@/components/pagination";
 
 export default async function Stories({
   searchParams,
@@ -17,6 +17,8 @@ export default async function Stories({
     title?: string;
     category?: string;
     level?: string;
+    page?: number;
+    size?: number;
   };
 }) {
   const carouselData = await Promise.all([
@@ -40,8 +42,7 @@ export default async function Stories({
             <ClearFilter />
           </div>
         </div>
-        <Storylist title={searchParams?.title} level={searchParams?.level} category={searchParams?.category} />
-        <PaginationDemo />
+        <StoryList {...searchParams} />
       </Container>
     </div>
   );

@@ -54,6 +54,14 @@ export type Story = {
   isPremium: boolean
 }
 
+export type PaginatedData<T> = {
+  data: T[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    totalCount: number;
+  };
+};
 
 export type Level = keyof typeof LEVEL_NUMBERS;
 

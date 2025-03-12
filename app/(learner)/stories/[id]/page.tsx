@@ -1,6 +1,6 @@
 import Container from "@/components/container";
 import TranslatableSection from "@/components/layout/translatable-section";
-import { getStory } from "@/lib/actions/stories";
+import { getStory } from "../_lib/actions";
 import { Story } from "@/lib/definitions";
 import RelatedStories from "../_components/related-stories";
 import { estimateReadingTime } from "../_lib/utils";

@@ -46,7 +46,6 @@ const SearchBar = ({ givenKeyword, placeholder = 'Search', fullRounded = true }:
   }, [pathname, params?.size]);
 
   return (
-    <Suspense>
       <div className={`flex items-center border-2 border-blue-gray-200 focus-within:border-black relative bottom-1 flex-1 w-full cursor-pointer ${fullRounded ? 'rounded-lg' : 'rounded-t-xl'} bg-foreground`}>
         <label htmlFor='search' className='absolute left-2'>
           <MagnifyingGlassIcon className='w-7 h-7 cursor-pointer text-blue-gray-200' />
@@ -59,12 +58,18 @@ const SearchBar = ({ givenKeyword, placeholder = 'Search', fullRounded = true }:
         />
         {keyword && <button onClick={resetSearchBar} className='absolute right-2'><XCircleIcon className='w-7 h-7 text-black/50 dark:hover:fill-gray-800 hover:fill-black' /></button>}
       </div>
-    </Suspense>
-
   )
 }
 
-export default SearchBar
+const SearchBarWithSuspense = ({ givenKeyword, placeholder = 'Search', autoFocus, fullRounded = true }: SearchBarProps) => {
+  return (
+    <Suspense fallback={<SearchBar givenKeyword={givenKeyword} placeholder={placeholder} fullRounded={fullRounded} />}>
+      <SearchBar givenKeyword={givenKeyword} placeholder={placeholder} fullRounded={fullRounded} />
+    </Suspense>
+  )
+}
+
+export default SearchBarWithSuspense
 
 export const HomeSearchBar = ({ givenKeyword, placeholder = 'Search', autoFocus, fullRounded = true }: SearchBarProps) => {
   fullRounded = fullRounded || true

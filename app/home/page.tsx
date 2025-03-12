@@ -7,21 +7,21 @@ import Separator from '@/components/separator'
 import { CardSkeleton } from '@/components/skeleton'
 import { toast } from '@/components/ui/use-toast'
 import { BASE_URL } from '@/lib/constants'
-import { Story, Video } from '@/lib/definitions'
+import { PaginatedData, Story, Video } from '@/lib/definitions'
 import { useAuth } from '@/providers/auth'
 import { Rocket } from 'lucide-react'
 import Image from 'next/image'
-import { useSearchParams } from 'next/navigation'
+// import { useSearchParams } from 'next/navigation'
 import { Suspense, useEffect, useState } from 'react'
 import { MiniStoryCard } from '../(learner)/stories/_components/card'
 import { MiniVideoCard } from '../(learner)/videos/_components/card'
 
 const Home = () => {
   const { login } = useAuth()
-  const searchParams = useSearchParams()
-  const paymentSuccess = searchParams.get('payment_success')
+  // const searchParams = useSearchParams()
+  // const paymentSuccess = searchParams.get('payment_success')
   const { userInfo } = useAuth()
-  const [stories, setStories] = useState<Story[]>([])
+  const [stories, setStories] = useState<PaginatedData<Story>>()
   const [videos, setVideos] = useState<Video[]>([])
   const [loading, setLoading] = useState(true)
   useEffect(() => {
@@ -46,21 +46,21 @@ const Home = () => {
     fetchStories()
     fetchVideos()
   }, []);
-  useEffect(() => {
-    const storedUserInfo = localStorage.getItem('userInfo');
-    const currentUserInfo = JSON.parse(storedUserInfo || "null")
-    const token = localStorage.getItem('token');
-    if (paymentSuccess && currentUserInfo) {
-      login({ ...currentUserInfo, isPremium: true }, token!)
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedUserInfo = localStorage.getItem('userInfo');
+  //   const currentUserInfo = JSON.parse(storedUserInfo || "null")
+  //   const token = localStorage.getItem('token');
+  //   if (paymentSuccess && currentUserInfo) {
+  //     login({ ...currentUserInfo, isPremium: true }, token!)
+  //   }
+  // }, []);
 
-  if (paymentSuccess && userInfo) {
-    toast({
-      title: 'Subsribe to premium successfully!',
-      description: 'You now have full access to the premium content',
-    })
-  }
+  // if (paymentSuccess && userInfo) {
+  //   toast({
+  //     title: 'Subsribe to premium successfully!',
+  //     description: 'You now have full access to the premium content',
+  //   })
+  // }
   return (
     <Suspense>
       <div className='w-full relative'>
@@ -120,7 +120,7 @@ const Home = () => {
                     Array.from({ length: 4 }).map((_, index) =>
                       <CardSkeleton key={index} />
                     )
-                    : stories?.map(item =>
+                    : stories?.data?.map(item =>
                       <MiniStoryCard data={item} key={item._id} />
                     )
                 }

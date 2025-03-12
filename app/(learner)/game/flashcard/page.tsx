@@ -1,5 +1,5 @@
 'use client'
-import Flashcard from '@/app/game/game/flashcard';
+import Flashcard from "../_components/flash-card";
 import { Collection, CollectionItem } from '@/lib/definitions';
 import { GameContext } from '@/providers/game';
 import { useContext } from 'react';

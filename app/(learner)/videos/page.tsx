@@ -1,12 +1,12 @@
 import Container from "@/components/container";
-import FilterSelect, { ClearFilter } from "@/components/filter-select";
+import { FilterSelect, ClearFilter } from "@/components/filter-select";
 import SearchBar from "@/components/search-bar";
 import { PlayCircleIcon } from "lucide-react";
 import { ENGLISH_LEVELS } from "@/lib/constants";
 import VideoList from "./_components/video-list";
 import { Suspense } from "react";
 import Loading from "../stories/loading";
-import { PaginationDemo } from "@/components/pagination";
+// import { PaginationWrapper } from "@/components/pagination";
 export default async function Videos({
   searchParams,
 }: {
@@ -44,7 +44,7 @@ export default async function Videos({
         <Suspense fallback={<Loading />}>
           <VideoList title={searchParams?.title} level={searchParams?.level} category={searchParams?.category} />
         </Suspense>
-        <PaginationDemo />
+        {/* <PaginationWrapper /> */}
       </Container>
     </div>
   );
