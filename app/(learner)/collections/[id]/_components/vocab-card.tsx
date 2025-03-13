@@ -27,7 +27,7 @@ export default function VocabCard({ vocabulary }: VocabCardProps) {
     <>
       <Card className="mt-4 border-2 bg-foreground">
         <CardBody className='py-2'>
-          <div className='flex justify-between gap-4 py-2 items-center divide-x-2 h-full'>
+          <div className='flex justify-between gap-4 py-2 items-center h-full'>
             <div className="grid grid-cols-2 gap-4 w-full divide-x-2">
               <div className="col-span-1">
                 <p className="text-sm font-normal">Source text</p>

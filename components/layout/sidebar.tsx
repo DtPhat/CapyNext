@@ -55,25 +55,30 @@ const navigationList = [
         Icon: Square2StackIcon,
         name: "Flashcard",
         route: "/game/flashcard",
-        index: 4.1
+        index: 4.1,
+        color: 'text-blue-500'
       },
       {
         Icon: RectangleGroupIcon,
         name: "Matching",
         route: "/game/matching",
-        index: 4.2
+        index: 4.2,
+        color: 'text-green-500'
+
       },
       {
         Icon: QuestionMarkCircleIcon,
         name: "Word Guessing",
         route: "/game/word-guessing",
-        index: 4.3
+        index: 4.3,
+        color: 'text-pink-500'
       },
       {
         Icon: Squares2X2Icon,
         name: "Multiple Choice",
         route: "/game/multiple-choice",
-        index: 4.4
+        index: 4.4,
+        color: 'text-orange-500'
       },
     ],
   },
@@ -165,7 +170,7 @@ export default function Sidebar() {
                     <ListItem className="p-0" >
                       <AccordionHeader onClick={() => handleOpen(1)} className="border-b-0 p-3">
                         <ListItemPrefix>
-                          <img className="size-6" src={item.Icon} />
+                          <img className="size-6" src={item.Icon}/>
                         </ListItemPrefix>
                         <Typography className="mr-auto tracking-wide text-black">
                           {item.name}
@@ -177,7 +182,7 @@ export default function Sidebar() {
                         <div key={subItem.index} onClick={(e) => handleAccess(e, subItem.route)} className="relative">
                           <ListItem selected={pathname.includes(subItem.route)}>
                             <ListItemPrefix>
-                              <subItem.Icon className={`size-6 ${requringPremiumRoutes.includes(subItem.route) ? 'text-yellow-900' : ''}`} />
+                              <subItem.Icon className={`size-6 ${subItem.color} ${requringPremiumRoutes.includes(subItem.route) ? 'text-yellow-900' : ''}`}/>
                             </ListItemPrefix>
                             <Typography>
                               {subItem.name}

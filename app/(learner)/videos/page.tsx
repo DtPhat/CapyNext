@@ -14,6 +14,8 @@ export default async function Videos({
     title?: string;
     category?: string;
     level?: string;
+    page?: number;
+    size?: number;
   };
 }) {
   return (
@@ -42,7 +44,8 @@ export default async function Videos({
           </div>
         </div>
         <Suspense fallback={<Loading />}>
-          <VideoList title={searchParams?.title} level={searchParams?.level} category={searchParams?.category} />
+          {/* <VideoList title={searchParams?.title} level={searchParams?.level} category={searchParams?.category} /> */}
+          <VideoList {...searchParams} />
         </Suspense>
         {/* <PaginationWrapper /> */}
       </Container>

@@ -6,6 +6,7 @@ import useSWR from 'swr';
 import CollectionCard from './_components/card';
 import { CreateCollection } from '@/components/collection';
 import { CardSkeleton, CollectionCardSkeleton } from '@/components/skeleton';
+import NoData from '@/components/no-data';
 
 export default function Collections() {
   const { data, isLoading, error } = useSWR('/collections')
@@ -19,7 +20,16 @@ export default function Collections() {
           <SearchBar placeholder="Search collection..." />
         </div>
       </div>
-      <div className='text-lg'>{collectionList.length} collections | {countTotal} Saved Words</div>
+      {/* {
+        <NoData />
+      } */}
+      <div className='text-lg'>{
+        isLoading
+          ? 'Loading...'
+          : error
+            ? 'Failed to load data'
+            : `${collectionList.length} collections | ${countTotal} Saved Words`
+      }</div>
       <CreateCollection />
       <div className="pt-4">
         <div className='w-52'>
@@ -37,12 +47,14 @@ export default function Collections() {
             ? Array.from({ length: 3 }).map((_, index) =>
               <CollectionCardSkeleton key={index} />
             )
-            : collectionList.map(collection =>
-              <CollectionCard
-                key={collection._id}
-                collection={collection}
-              />
-            )
+            : !collectionList?.length
+              ? <NoData text='No collections added!' />
+              : collectionList.map(collection =>
+                <CollectionCard
+                  key={collection._id}
+                  collection={collection}
+                />
+              )
         }
       </div>
     </Container >

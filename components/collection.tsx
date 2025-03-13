@@ -53,7 +53,7 @@ export function CreateCollection({ OpenButton }: { OpenButton?: ReactNode }) {
   })
   const { toast } = useToast()
   form.watch('picture')
-  const { trigger } = useSWRMutation("/collections", postFetcher, { revalidate: true })
+  const { isMutating, trigger } = useSWRMutation("/collections", postFetcher, { revalidate: true })
   async function onSubmit(values: z.infer<typeof formSchema>) {
     await trigger(values)
       .then(response => {
@@ -84,7 +84,7 @@ export function CreateCollection({ OpenButton }: { OpenButton?: ReactNode }) {
               Icon={<PlusIcon className="w-8 h-8" />}
               iconDirection="left"
               className="max-w-64"
-              text="Create Collection"
+              text="Create a collection"
               variant="filled"
             />
           </div>
@@ -97,7 +97,7 @@ export function CreateCollection({ OpenButton }: { OpenButton?: ReactNode }) {
         <div className="flex items-center justify-between ">
           <DialogHeader className="flex flex-col items-start">
             <Typography className="mb-1" variant="h4">
-              Create new collection
+              Create a new collection
             </Typography>
           </DialogHeader>
           <IconButton className="mx-4" variant="text" onClick={handleOpen}>
@@ -166,7 +166,15 @@ export function CreateCollection({ OpenButton }: { OpenButton?: ReactNode }) {
           }}>
             Cancel
           </Button>
-          <Button type="submit" color='green' onClick={form.handleSubmit(onSubmit)}>Submit</Button>
+          <Button
+            type="submit"
+            color='green'
+            disabled={isMutating}
+            loading={isMutating}
+            onClick={form.handleSubmit(onSubmit)}
+          >
+            Submit
+          </Button>
         </DialogFooter>
       </Dialog>
     </>

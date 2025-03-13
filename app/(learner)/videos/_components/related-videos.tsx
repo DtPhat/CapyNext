@@ -3,7 +3,7 @@ import { Story, Video } from '@/lib/definitions';
 import Link from 'next/link';
 import React from 'react'
 import { MiniVideoCard } from './card';
-import { getVideos } from '@/lib/actions/videos';
+import { getVideos } from '../_lib/actions';
 
 
 const RelatedVideos = async ({ currentId }: { currentId: string }) => {

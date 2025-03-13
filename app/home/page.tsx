@@ -16,13 +16,17 @@ import { Suspense, useEffect, useState } from 'react'
 import { MiniStoryCard } from '../(learner)/stories/_components/card'
 import { MiniVideoCard } from '../(learner)/videos/_components/card'
 
+import { YoutubeTranscript } from 'youtube-transcript';
+
 const Home = () => {
+  YoutubeTranscript.fetchTranscript('qyc2lgnOWJo').then((data) => console.log(data));
+
   const { login } = useAuth()
   // const searchParams = useSearchParams()
   // const paymentSuccess = searchParams.get('payment_success')
   const { userInfo } = useAuth()
   const [stories, setStories] = useState<PaginatedData<Story>>()
-  const [videos, setVideos] = useState<Video[]>([])
+  const [videos, setVideos] = useState<PaginatedData<Video>>()
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     const fetchStories = async () => {
@@ -98,7 +102,7 @@ const Home = () => {
                     Array.from({ length: 3 }).map((_, index) =>
                       <CardSkeleton key={index} />
                     )
-                    : videos?.map(item =>
+                    : videos?.data.map(item =>
                       <MiniVideoCard data={item} key={item.caption} />
                     )
                 }

@@ -5,7 +5,7 @@ export const getStories = async (
   level: string = "",
   category: string = "",
   page: number = 1,
-  size: number = 10
+  size: number = 9
 ) => {
   try {
     const params = new URLSearchParams({
@@ -29,7 +29,6 @@ export const getStories = async (
     }
 
     const result = await response.json();
-    console.log(url);
     return result;
   } catch (error) {
     console.error('Error fetching stories:', error);

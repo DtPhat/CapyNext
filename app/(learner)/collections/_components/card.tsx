@@ -34,14 +34,17 @@ export default function CollectionCard({ collection }: CollectionCardProps) {
     <>
       <Card className="mt-4 border-2 bg-foreground">
         <CardBody className='py-2'>
-          <div className='flex justify-between gap-2 py-2 items-center'>
-            <div className="rounded-full border-2 bg-gradient-to-r from-primary/80 to-accent/40">
-              <img className="w-20 h-20 rounded-full object-cover" src={picture} />
+          <div className='flex justify-between gap-2 py-2'>
+            <div className="rounded-full border-2 bg-gradient-to-r from-primary/80 to-accent/40 min-w-20 max-h-24">
+              <img className="w-20 h-20 rounded-full object-cover hover:cursor-pointer" src={picture}
+                onClick={() => router.push("/collections/" + collection._id)}
+              />
             </div>
             <div>
               <Typography color="blue-gray"
-                className="text-lg font-semibold hover:text-primary cursor-pointer line-clamp-1"
-                onClick={() => router.push("/collections/" + name)}>
+                className="text-lg font-semibold hover:text-primary cursor-pointer"
+                onClick={() => router.push("/collections/" + collection._id)}
+              >
                 {name}
               </Typography>
               <Typography color="blue-gray" className="">

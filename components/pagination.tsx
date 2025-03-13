@@ -50,7 +50,7 @@ export function PaginationWrapper({
             </PaginationItem>
           ) : (
             <PaginationItem key={index}>
-              <PaginationLink href={generateHref(page)} isActive={page === currentPage}>
+              <PaginationLink href={generateHref(page)} isActive={page == currentPage}>
                 {page}
               </PaginationLink>
             </PaginationItem>

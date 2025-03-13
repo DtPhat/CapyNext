@@ -42,15 +42,24 @@ export function CreateVocab({ collection }: { collection: Collection }) {
       sourceText: "",
     },
   })
-  const callTranslateAPI = async () => {
-    await fetch('/api/translate', {
-      method: "POST",
-      body: JSON.stringify({ text: form.getValues().sourceText }),
-    })
-      .then(response => { return response.json() })
-      .then(data => { setTranslatedText(data.text); })
-  }
-  const { trigger } = useSWRMutation('/vocabularies', postFetcher)
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchTranslatedText = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: form.getValues().sourceText }),
+      });
+      const data = await response.json();
+      setTranslatedText(data.text);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const { trigger, isMutating } = useSWRMutation('/vocabularies', postFetcher)
   async function onSubmit(values: z.infer<typeof formSchema>) {
     let submittingTranslation
     if (!translatedText) {
@@ -89,53 +98,91 @@ export function CreateVocab({ collection }: { collection: Collection }) {
   return (
     <>
       <div>
-        <ButtonIcon Icon={<PlusIcon className='w-8 h-8' />} text='Add vocabulary' iconDirection='left' variant='filled' onClick={handleOpen} />
+
+        <ButtonIcon
+          Icon={<PlusIcon className="w-8 h-8" />}
+          text="Add vocabulary"
+          iconDirection="left"
+          variant="filled"
+          onClick={handleOpen}
+        />
       </div>
       <Dialog open={open} size="md" handler={handleOpen}>
-        <div className="flex items-center justify-between ">
-          <DialogHeader className="flex flex-col items-start">
-            <Typography className="mb-1" variant="h4">
-              Add new vocabulary
-            </Typography>
-          </DialogHeader>
-          <IconButton className="mx-4" variant="text" onClick={handleOpen}>
+        <DialogHeader className="flex items-center justify-between">
+          <Typography variant="h4">
+            Add a new vocabulary
+          </Typography>
+          <IconButton
+            className="mx-4"
+            variant="text"
+            onClick={handleOpen}
+          >
             <XMarkIcon className="w-6 h-6" />
           </IconButton>
-        </div>
+        </DialogHeader>
         <DialogBody className="flex flex-col gap-4">
           <Form {...form}>
-            <div className="space-y-8">
-              <FormField
-                control={form.control}
-                name="sourceText"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Source text</FormLabel>
-                    <FormControl>
-                      <Input placeholder="English words" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            <FormField
+              control={form.control}
+              name="sourceText"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Source text</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="English words"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </Form>
-          <div className="">
-            <ButtonIcon variant='text' color="green" onClick={callTranslateAPI} text="Translate" Icon={<LanguageIcon className="w-5 h-5" />} iconDirection="left" className="text-primary text-base" />
-            <div className="pl-2">
-              {translatedText}
-            </div>
+          <div className="flex flex-col gap-2">
+            {/* <ButtonIcon
+              variant="text"
+              color="green"
+              onClick={fetchTranslatedText}
+              text="Translate"
+              Icon={<LanguageIcon className="w-5 h-5" />}
+              iconDirection="left"
+              disabled={!isLoading}
+            /> */}
+            <div>
+            <Button color="green" variant="text" className="p-2 flex items-center gap-1 text-sm"
+              disabled={isLoading}
+              loading={isLoading}
+              onClick={fetchTranslatedText}
+              >
+              <LanguageIcon className="w-5 h-5" />
+              <div>Translate</div>
+            </Button>
+              </div>
+            <div className="pl-2">{translatedText}</div>
           </div>
         </DialogBody>
-        <DialogFooter className="space-x-2">
-          <Button variant='text' color="gray" onClick={() => {
-            handleOpen()
-            form.reset()
-            setTranslatedText("")
-          }}>
+        <DialogFooter className="flex items-center gap-2">
+          <Button
+            variant="text"
+            color="gray"
+            onClick={() => {
+              handleOpen()
+              form.reset()
+              setTranslatedText("")
+            }}
+          >
             Cancel
           </Button>
-          <Button type="submit" color='green' onClick={form.handleSubmit(onSubmit)}>Submit</Button>
+          <Button
+            type="submit"
+            color="green"
+            onClick={form.handleSubmit(onSubmit)}
+            disabled={isMutating}
+            loading={isMutating}
+          >
+            Submit
+          </Button>
         </DialogFooter>
       </Dialog>
     </>
