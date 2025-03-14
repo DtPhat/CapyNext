@@ -1,12 +1,13 @@
 'use server'
 import { BASE_URL } from "@/lib/constants"
+import { PaginatedData, Story } from "@/lib/definitions";
 export const getStories = async (
   title: string = "",
   level: string = "",
   category: string = "",
   page: number = 1,
   size: number = 9
-) => {
+): Promise<PaginatedData<Story> | null> => {
   try {
     const params = new URLSearchParams({
       ...(title && { title }),

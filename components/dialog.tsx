@@ -130,9 +130,9 @@ export function LoginDialog({
   return (
     <>
       {
-        <button onClick={handleOpen}>
+        <div onClick={handleOpen}>
           {OpenButton}
-        </button>
+        </div>
       }
       <Dialog size="xs" open={openProp !== undefined ? openProp : open} handler={handleOpen} className="p-4">
         <DialogHeader className="justify-between">

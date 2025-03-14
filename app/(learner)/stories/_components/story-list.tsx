@@ -18,28 +18,37 @@ interface StorylistProps {
 }
 
 
-const StoryList = async (storylistProps: StorylistProps) => {
-  const { title, category, level, page = 1, size = 10 } = storylistProps;
-  const { data: stories = [], pagination }: PaginatedData<Story> = await getStories(title, level, category, page, size);
+const StoryList = async ({
+  title = '',
+  category = '',
+  level = '',
+  page = 1,
+  size = 10,
+}: StorylistProps) => {
+  const result = await getStories(title, level, category, page, size);
+  if (result === null) {
+    return <NoData />;
+  }
+  const { data: stories, pagination } = result;
   return (
     <>
       {!stories.length ? (
         <NoData />
       ) : (
-        <div>
-          <div className="grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-            {stories.map((story) => (
-              <Link href={`stories/${story._id}`} key={story._id}>
-                <StoryCard data={story} />
-              </Link>
-            ))}
-          </div>
-          <PaginationWrapper
-            currentPage={page}
-            totalPages={pagination?.totalPages || 1}
-            searchParams={storylistProps as Record<string, string>}
-          />
+        <div className="grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+          {stories.map((story) => (
+            <Link href={`/stories/${story._id}`} key={story._id}>
+              <StoryCard data={story} />
+            </Link>
+          ))}
         </div>
+      )}
+      {stories.length && (
+        <PaginationWrapper
+          currentPage={page}
+          totalPages={pagination?.totalPages || 1}
+          searchParams={{ title, category, level, page, size }}
+        />
       )}
     </>
   );

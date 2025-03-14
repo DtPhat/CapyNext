@@ -26,6 +26,9 @@ export default async function Stories({
     getStory('6657ecd96e94f467a7d5f1d1'),
     getStory('6656abf899f29ac57156ce09')
   ])
+
+  const { title, category, level, page = 1, size = 9 } = await searchParams ?? {};
+
   return (
     <div className="w-full">
       <StoriesCarousel
@@ -42,7 +45,13 @@ export default async function Stories({
             <ClearFilter />
           </div>
         </div>
-        <StoryList {...searchParams} />
+        <StoryList
+          title={title}
+          level={level}
+          category={category}
+          page={page}
+          size={size} 
+          />
       </Container>
     </div>
   );

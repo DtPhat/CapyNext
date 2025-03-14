@@ -4,6 +4,7 @@ import { getVideos } from '../_lib/actions';
 import { PaginatedData, Video } from '@/lib/definitions'
 import NoData from '@/components/no-data'
 import { PaginationWrapper } from '@/components/pagination';
+import Link from 'next/link';
 
 interface VideoListProps {
   title?: string
@@ -13,35 +14,40 @@ interface VideoListProps {
   size?: number
 }
 
-const VideoList = async (videoListProps: VideoListProps) => {
-  const { title, category, level, page = 1, size = 9 } = videoListProps;
-
-  const { data: videos = [], pagination }: PaginatedData<Video> = await getVideos(title, level, category, page, size);
-  console.log(videos)
+const VideoList = async ({
+  title = '',
+  category = '',
+  level = '',
+  page = 1,
+  size = 9,
+}: VideoListProps) => {
+  const result = await getVideos(title, level, category, page, size);
+  if (result === null) {
+    return <NoData />;
+  }
+  const { data: videos, pagination } = result;
   return (
     <>
-      {
-        !videos?.length
-          ? <NoData />
-          : (
-            <div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-                {
-                  videos?.map(item =>
-                    <VideoCard key={item._id} data={item} />
-                  )
-                }
-              </div>
-              <PaginationWrapper
-                currentPage={page}
-                totalPages={pagination?.totalPages || 1}
-                searchParams={videoListProps as Record<string, string>}
-              />
-            </div>
-          )
-      }
+      {videos?.length ? (
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+          {videos.map((video) => (
+            <Link href={`/videos/${video._id}`} key={video._id}>
+              <VideoCard data={video} />
+            </Link>
+          ))}
+        </div>
+      ) : (
+        <NoData />
+      )}
+      {videos?.length && (
+        <PaginationWrapper
+          currentPage={page}
+          totalPages={Number(pagination?.totalPages) || 1}
+          searchParams={{ title, category, level, page, size }}
+        />
+      )}
     </>
-  )
-}
+  );
+};
 
 export default VideoList

@@ -8,11 +8,11 @@ import { getVideos } from '../_lib/actions';
 
 const RelatedVideos = async ({ currentId }: { currentId: string }) => {
   const response = await getVideos("", "", "", 1, 4)
-  const videoList: Video[] = response
+  const result = response
   return (
     <div className="grid grid-cols-3 gap-4">
       {
-        videoList?.map(item =>
+        result?.data?.map(item =>
           item._id != currentId ? < MiniVideoCard key={item._id} data={item} /> : null
         )
       }

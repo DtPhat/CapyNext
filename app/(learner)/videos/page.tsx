@@ -18,6 +18,13 @@ export default async function Videos({
     size?: number;
   };
 }) {
+  const { title, category, level, page = 1, size = 9 } = await searchParams ?? {};
+  // const title = searchParams?.title || ""
+  // const category = searchParams?.category || ""
+  // const level = searchParams?.level || ""
+  // const page = Number(searchParams?.page) || 1
+  // const size = Number(searchParams?.size) || 9
+
   return (
     <div className="w-full">
       <div className="relative">
@@ -44,10 +51,14 @@ export default async function Videos({
           </div>
         </div>
         <Suspense fallback={<Loading />}>
-          {/* <VideoList title={searchParams?.title} level={searchParams?.level} category={searchParams?.category} /> */}
-          <VideoList {...searchParams} />
+          <VideoList
+            title={title}
+            level={level}
+            category={category}
+            page={page}
+            size={size}
+          />
         </Suspense>
-        {/* <PaginationWrapper /> */}
       </Container>
     </div>
   );

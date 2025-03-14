@@ -14,7 +14,7 @@ import { usePathname } from "next/navigation"
 interface PaginationWrapperProps {
   currentPage: number
   totalPages: number
-  searchParams?: Record<string, string | undefined>,
+  searchParams?: Record<string, string | number | undefined>,
   className?: string
 }
 
