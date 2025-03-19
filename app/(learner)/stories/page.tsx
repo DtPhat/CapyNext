@@ -13,13 +13,7 @@ import { PaginationWrapper } from "@/components/pagination";
 export default async function Stories({
   searchParams,
 }: {
-  searchParams?: {
-    title?: string;
-    category?: string;
-    level?: string;
-    page?: number;
-    size?: number;
-  };
+  searchParams: Promise<{ [key: string]: string | undefined }>
 }) {
   const carouselData = await Promise.all([
     getStory('6657ecb46e94f467a7d5f1d0'),
@@ -27,7 +21,7 @@ export default async function Stories({
     getStory('6656abf899f29ac57156ce09')
   ])
 
-  const { title, category, level, page = 1, size = 9 } = await searchParams ?? {};
+  const { title, category, level, page = 1, size = 9 } = await searchParams;
 
   return (
     <div className="w-full">
@@ -49,9 +43,9 @@ export default async function Stories({
           title={title}
           level={level}
           category={category}
-          page={page}
-          size={size} 
-          />
+          page={Number(page)}
+          size={Number(size)}
+        />
       </Container>
     </div>
   );

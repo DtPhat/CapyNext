@@ -1,18 +1,12 @@
-'use client'
-import Flashcard from "../_components/flash-card";
-import { Collection, CollectionItem } from '@/lib/definitions';
-import { GameContext } from '@/providers/game';
-import { useContext } from 'react';
-import useSWR from 'swr';
-const GamePage = () => {
+import React from 'react'
+import FlashCardGame from './_components/flashcard-game'
 
-  const { chosenCollection } = useContext(GameContext)
-  const { data } = useSWR<CollectionItem[]>('/vocabularies/' + chosenCollection?._id)
+const Page = () => {
   return (
-    <div className='text-black'>
-      <Flashcard data={data || []} />
+    <div>
+      <FlashCardGame />
     </div>
   )
 }
 
-export default GamePage
+export default Page

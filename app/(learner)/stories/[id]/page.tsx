@@ -4,7 +4,8 @@ import { getStory } from "../_lib/actions";
 import { Story } from "@/lib/definitions";
 import RelatedStories from "../_components/related-stories";
 import { estimateReadingTime } from "../_lib/utils";
-export default async function Story({ params }: { params: { id: string } }) {
+export default async function Story(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const story: Story = await getStory(params.id)
   return (
     <Container>

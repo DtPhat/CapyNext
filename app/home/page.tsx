@@ -5,7 +5,6 @@ import { GettingStartedDialog } from '@/components/dialog'
 import { HomeSearchBar } from '@/components/search-bar'
 import Separator from '@/components/separator'
 import { CardSkeleton } from '@/components/skeleton'
-import { toast } from '@/components/ui/use-toast'
 import { BASE_URL } from '@/lib/constants'
 import { PaginatedData, Story, Video } from '@/lib/definitions'
 import { useAuth } from '@/providers/auth'
@@ -16,11 +15,7 @@ import { Suspense, useEffect, useState } from 'react'
 import { MiniStoryCard } from '../(learner)/stories/_components/card'
 import { MiniVideoCard } from '../(learner)/videos/_components/card'
 
-import { YoutubeTranscript } from 'youtube-transcript';
-
 const Home = () => {
-  YoutubeTranscript.fetchTranscript('qyc2lgnOWJo').then((data) => console.log(data));
-
   const { login } = useAuth()
   // const searchParams = useSearchParams()
   // const paymentSuccess = searchParams.get('payment_success')

@@ -45,9 +45,11 @@ export function ConfirmDialog({
   toastMessage = 'Success',
   toastDescription = 'Your action was completed',
 }: DialogProps) {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(prevState => !prevState);
-  const handleConfirm = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDialog = () => setIsOpen(prev => !prev);
+
+  const confirmAction = () => {
     if (onConfirm) {
       onConfirm()
         .then(response => {
@@ -55,37 +57,37 @@ export function ConfirmDialog({
             toast({
               title: toastMessage,
               description: toastDescription,
-            })
+            });
           }
         })
-        .finally(() => {
-          handleOpen()
-        });
+        .finally(toggleDialog);
     }
-  }
+  };
 
   return (
     <>
-      {
-        <button onClick={handleOpen}>
-          {OpenButton}
-        </button>
-      }
-      <Dialog open={open} handler={handleOpen}>
+      <button onClick={toggleDialog}>
+        {OpenButton}
+      </button>
+      <Dialog open={isOpen} handler={toggleDialog}>
         <DialogHeader>{message}</DialogHeader>
-        <DialogBody>
-          {description}
-        </DialogBody>
+        <DialogBody>{description}</DialogBody>
         <DialogFooter>
           <Button
             variant="text"
             color="red"
-            onClick={handleOpen}
+            onClick={toggleDialog}
             className="mr-1"
           >
             <span>Cancel</span>
           </Button>
-          <Button variant="filled" color="green" onClick={handleConfirm} disabled={loading} loading={loading}>
+          <Button
+            variant="filled"
+            color="green"
+            onClick={confirmAction}
+            disabled={loading}
+            loading={loading}
+          >
             <span>Confirm</span>
           </Button>
         </DialogFooter>
@@ -97,50 +99,52 @@ export function ConfirmDialog({
 
 export function LoginDialog({
   onConfirm,
-  loading,
+  // loading,
   OpenButton,
   toastMessage = 'Login successfully ✔️',
   toastDescription = '',
   open: openProp,
-  handleOpen: handleOpenProp
+  handleOpen: handleOpenProp,
 }: DialogProps) {
-  const [open, setOpen] = useState(openProp !== undefined ? openProp : false);
-  const handleOpen =
-    handleOpenProp !== undefined
-      ? handleOpenProp
-      : () => setOpen(prevState => !prevState);
+  const [open, setOpen] = useState(openProp ?? false);
+  const handleOpen = handleOpenProp ?? (() => setOpen((prevOpen) => !prevOpen));
+  const [loading, setLoading] = useState(false); // Add a loading state
 
   const handleConfirm = () => {
     if (onConfirm) {
+      setLoading(true); // Set loading to true when handleConfirm is called
       onConfirm()
         .then(() => {
           toast({
             title: toastMessage,
             description: toastDescription,
-          })
-          handleOpen()
+          });
+          handleOpen();
         })
-        .catch(error => {
-          console.log(error)
-        });
+        .catch((error) => console.log(error))
+        .finally(() => setLoading(false)); // Set loading to false when the promise is resolved or rejected
     }
-
-  }
+  };
 
   return (
     <>
-      {
-        <div onClick={handleOpen}>
-          {OpenButton}
-        </div>
-      }
-      <Dialog size="xs" open={openProp !== undefined ? openProp : open} handler={handleOpen} className="p-4">
+      <div onClick={handleOpen}>{OpenButton}</div>
+      <Dialog
+        size="xs"
+        open={openProp ?? open}
+        handler={handleOpen}
+        className="p-4"
+      >
         <DialogHeader className="justify-between">
           <div>
             <Typography variant="h5" color="blue-gray">
-              Log in to {' '}
-              <span className={`${abrilFatface.className} text-2xl text-brown-primary`}>Capy</span>
-              <span className={`${abrilFatface.className} text-2xl text-primary`}>Venture</span>
+              Log in to{' '}
+              <span className={`${abrilFatface.className} text-2xl text-brown-primary`}>
+                Capy
+              </span>
+              <span className={`${abrilFatface.className} text-2xl text-primary`}>
+                Venture
+              </span>
             </Typography>
             <Typography color="gray" variant="paragraph" className="mt-2">
               Choose your authentication method
@@ -171,7 +175,11 @@ export function LoginDialog({
         <DialogBody className="!px-5">
           <div className="mb-6">
             <ul className="mt-3 -ml-2 flex flex-col gap-1">
-              <MenuItem className="mb-4 flex items-center justify-center gap-3 !py-4 shadow-md bg-white" onClick={() => handleConfirm()}>
+              <MenuItem
+                className="mb-4 flex items-center justify-center gap-3 !py-4 shadow-md bg-white"
+                onClick={handleConfirm}
+                disabled={loading}
+              >
                 <img
                   src="/auth/google-logo.jpg"
                   alt="google-icon"
@@ -185,7 +193,10 @@ export function LoginDialog({
                   Log in with Google
                 </Typography>
               </MenuItem>
-              <MenuItem className="mb-1 flex items-center justify-center gap-3 !py-4 shadow-md bg-white">
+              <MenuItem
+                className="mb-1 flex items-center justify-center gap-3 !py-4 shadow-md bg-white"
+                disabled={loading}
+              >
                 <img
                   src="https://i.pinimg.com/736x/42/75/49/427549f6f22470ff93ca714479d180c2.jpg"
                   alt="facebook logo"
@@ -201,19 +212,19 @@ export function LoginDialog({
               </MenuItem>
             </ul>
           </div>
-
         </DialogBody>
         <DialogFooter className="justify-between gap-2">
           <Typography variant="small" color="gray" className="font-normal">
             New to our website?
           </Typography>
           <GettingStartedDialog
-            OpenButton={<Button variant="text" size="sm">
-              Learn More
-            </Button>}
-            onConfirm={(): Promise<any> => {
-              throw new Error("Function not implemented.");
-            }} />
+            OpenButton={
+              <Button variant="text" size="sm">
+                Learn More
+              </Button>
+            }
+            onConfirm={() => Promise.reject(new Error("Function not implemented."))}
+          />
         </DialogFooter>
       </Dialog>
     </>
@@ -298,33 +309,29 @@ export const PremiumDialog = ({
   )
 }
 
-export function GettingStartedDialog({
-  OpenButton,
-}: DialogProps) {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(prevState => !prevState);
-  const router = useRouter()
+export function GettingStartedDialog({ OpenButton }: DialogProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpen = () => setIsOpen((prevState) => !prevState);
+
+  const router = useRouter();
+
   return (
     <>
-      {
-        <button onClick={handleOpen}>
-          {OpenButton}
-        </button>
-      }
-      <Dialog open={open} handler={handleOpen} size="md">
+      <button onClick={handleOpen}>{OpenButton}</button>
+      <Dialog open={isOpen} handler={handleOpen} size="md">
         <DialogHeader>
           <Typography variant="h4" color="blue-gray">
-            How to learn on {' '}
-            <span className={`${abrilFatface.className} text-3xl text-brown-primary`}>Capy</span>
-            <span className={`${abrilFatface.className} text-3xl text-primary`}>Venture</span>
+            How to learn on{" "}
+            <span className="text-3xl text-brown-primary">CapyVenture</span>
           </Typography>
         </DialogHeader>
         <div className="p-4">
           <Carousel
             className="rounded-md h-[33rem]"
             navigation={({ setActiveIndex, activeIndex, length }) => (
-              <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
-                {new Array(length).fill("").map((_, i) => (
+              <div className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 gap-2">
+                {Array.from({ length }, (_, i) => (
                   <span
                     key={i}
                     className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${activeIndex === i ? "w-8 bg-brown-primary" : "w-4 bg-brown-primary/50"
@@ -340,7 +347,7 @@ export function GettingStartedDialog({
                 color="white"
                 size="lg"
                 onClick={handlePrev}
-                className="!absolute top-2/4 left-4 -translate-y-2/4"
+                className="!absolute top-1/2 left-4 -translate-y-1/2"
               >
                 <ArrowLeft className="size-10 text-brown-primary" />
               </IconButton>
@@ -351,7 +358,7 @@ export function GettingStartedDialog({
                 color="white"
                 size="lg"
                 onClick={handleNext}
-                className="!absolute top-2/4 !right-4 -translate-y-2/4"
+                className="!absolute top-1/2 right-4 -translate-y-1/2"
               >
                 <ArrowRight className="size-10 text-brown-primary" />
               </IconButton>
@@ -364,7 +371,7 @@ export function GettingStartedDialog({
                 className="h-96 w-full object-cover"
               />
               <div className="pt-3 font-semibold text-lg">
-                Select any words or sentences you do not know, and we will translate them instantly.
+                Select any words or sentences you don't know, and we'll translate them instantly.
                 Then, you can add these words or sentences to your collection to review later.
               </div>
             </div>
@@ -376,7 +383,13 @@ export function GettingStartedDialog({
               />
               <div className="pt-1 font-semibold text-lg">
                 You can manage your own collections and add as many vocabularies as you want.
-                Make sure to practice them further in <p className="cursor-pointer underline hover:text-accent" onClick={() => router.push('/game')}>Game Center</p>
+                Make sure to practice them further in{" "}
+                <p
+                  className="cursor-pointer underline hover:text-accent"
+                  onClick={() => router.push("/game")}
+                >
+                  Game Center
+                </p>
               </div>
             </div>
             <div>
@@ -392,9 +405,7 @@ export function GettingStartedDialog({
             </div>
           </Carousel>
         </div>
-
       </Dialog>
-
     </>
   );
 }

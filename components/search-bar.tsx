@@ -4,6 +4,7 @@ import { Button } from '@material-tailwind/react';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
+import { BarSkeleton } from './skeleton';
 
 interface SearchBarProps {
   givenKeyword?: string,
@@ -63,7 +64,7 @@ const SearchBar = ({ givenKeyword, placeholder = 'Search', fullRounded = true }:
 
 const SearchBarWithSuspense = ({ givenKeyword, placeholder = 'Search', autoFocus, fullRounded = true }: SearchBarProps) => {
   return (
-    <Suspense fallback={<SearchBar givenKeyword={givenKeyword} placeholder={placeholder} fullRounded={fullRounded} />}>
+    <Suspense fallback={<BarSkeleton />}>
       <SearchBar givenKeyword={givenKeyword} placeholder={placeholder} fullRounded={fullRounded} />
     </Suspense>
   )

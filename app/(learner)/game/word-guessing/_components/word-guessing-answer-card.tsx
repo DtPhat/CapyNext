@@ -1,6 +1,6 @@
 import { shuffle } from 'lodash';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
-import SingleAnswerCard from './SingleAnswerCard';
+import SingleAnswerCard from './single-answer-card';
 
 type Props = {
 	questionData: {

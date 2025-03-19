@@ -1,12 +1,12 @@
 "use client"
+import { CreateCollection } from '@/components/collection';
 import Container from '@/components/container';
+import NoData from '@/components/no-data';
 import SearchBar from '@/components/search-bar';
+import { BarSkeleton } from '@/components/skeleton';
 import { Collection } from '@/lib/definitions';
 import useSWR from 'swr';
 import CollectionCard from './_components/card';
-import { CreateCollection } from '@/components/collection';
-import { CardSkeleton, CollectionCardSkeleton } from '@/components/skeleton';
-import NoData from '@/components/no-data';
 
 export default function Collections() {
   const { data, isLoading, error } = useSWR('/collections')
@@ -20,9 +20,6 @@ export default function Collections() {
           <SearchBar placeholder="Search collection..." />
         </div>
       </div>
-      {/* {
-        <NoData />
-      } */}
       <div className='text-lg'>{
         isLoading
           ? 'Loading...'
@@ -45,7 +42,7 @@ export default function Collections() {
         {
           isLoading
             ? Array.from({ length: 3 }).map((_, index) =>
-              <CollectionCardSkeleton key={index} />
+              <BarSkeleton key={index} />
             )
             : !collectionList?.length
               ? <NoData text='No collections added!' />

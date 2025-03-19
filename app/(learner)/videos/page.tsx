@@ -10,20 +10,9 @@ import Loading from "../stories/loading";
 export default async function Videos({
   searchParams,
 }: {
-  searchParams?: {
-    title?: string;
-    category?: string;
-    level?: string;
-    page?: number;
-    size?: number;
-  };
+  searchParams: Promise<{ [key: string]: string | undefined }>
 }) {
-  const { title, category, level, page = 1, size = 9 } = await searchParams ?? {};
-  // const title = searchParams?.title || ""
-  // const category = searchParams?.category || ""
-  // const level = searchParams?.level || ""
-  // const page = Number(searchParams?.page) || 1
-  // const size = Number(searchParams?.size) || 9
+  const { title, category, level, page = 1, size = 9 } = await searchParams;
 
   return (
     <div className="w-full">
@@ -55,8 +44,8 @@ export default async function Videos({
             title={title}
             level={level}
             category={category}
-            page={page}
-            size={size}
+            page={Number(page)}
+            size={Number(size)}
           />
         </Suspense>
       </Container>

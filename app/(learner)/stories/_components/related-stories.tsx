@@ -6,7 +6,7 @@ import { MiniStoryCard } from './card';
 import { getStories } from '../_lib/actions';
 
 const RelatedStories = async ({ currentId }: { currentId: string }) => {
-  const response : PaginatedData<Story> = await getStories("", "", "", 1, 4)
+  const response = await getStories("", "", "", 1, 4)
   const storyList = response?.data || []
   return (
     <div className="grid grid-cols-4 gap-4">

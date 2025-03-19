@@ -1,28 +1,21 @@
 'use client';
-import TranslatableSection from '@/components/layout/translatable-section';
 import Separator from '@/components/separator';
 import { Collection } from '@/lib/definitions';
-import { GameContext } from '@/providers/game';
 import {
-	ChevronDownIcon,
-	QuestionMarkCircleIcon,
-	RectangleGroupIcon,
-	Square2StackIcon,
-	Squares2X2Icon
+	ChevronDownIcon
 } from '@heroicons/react/24/solid';
 import {
 	Button,
-	Card,
-	CardHeader,
 	Chip,
 	Menu,
 	MenuHandler,
 	MenuItem,
 	MenuList
 } from '@material-tailwind/react';
-import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import useSWR from 'swr';
+import OtherGames from './_components/other-games';
+import { GameContext } from './_lib/context';
 const GameLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
 	const { data, isLoading } = useSWR('/collections');
 	const [chosenCollection, setChosenCollection] = useState<Collection | null>(null);
@@ -83,68 +76,14 @@ const GameLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
 			</div>
 			<Separator />
 			<div className='w-full'>
-				<TranslatableSection>
-					<GameContext.Provider
-						value={{ chosenCollection, setChosenCollection }}
-					>
-						{children}
-					</GameContext.Provider>
-				</TranslatableSection>
+				<GameContext.Provider
+					value={{ chosenCollection, setChosenCollection }}
+				>
+					{children}
+				</GameContext.Provider>
 			</div>
 			<Separator />
-			<div>
-				<h1 className='font-semibold pb-2 text-lg'>Other games</h1>
-				<div className='grid grid-cols-4 gap-8'>
-					<Link href='/game/flashcard' className='space-y-2'>
-						<Card className='overflow-hidden hover:bg-accent/10 p-4 flex justify-center flex-col items-center gap-8 group bg-foreground'>
-							<Square2StackIcon className='w-40 h-40 text-accent' />
-							<CardHeader
-								shadow={false}
-								color='transparent'
-								className='text-center text-xl text-black font-semibold group-hover:text-primary'
-							>
-								Flash Card
-							</CardHeader>
-						</Card>
-					</Link>
-					<Link href='/game/matching' className='space-y-2'>
-						<Card className='overflow-hidden hover:bg-accent/10 p-4 flex justify-center flex-col items-center gap-8 group bg-foreground'>
-							<RectangleGroupIcon className='w-40 h-40 text-primary' />
-							<CardHeader
-								shadow={false}
-								color='transparent'
-								className='text-center text-xl text-black font-semibold group-hover:text-primary'
-							>
-								Matching
-							</CardHeader>
-						</Card>
-					</Link>
-					<Link href='/game/word-guessing' className='space-y-2'>
-						<Card className='overflow-hidden hover:bg-accent/10 p-4 flex justify-center flex-col items-center gap-8 group bg-foreground'>
-							<QuestionMarkCircleIcon className='w-40 h-40 text-red-700/50' />
-							<CardHeader
-								shadow={false}
-								color='transparent'
-								className='text-center text-xl text-black font-semibold group-hover:text-primary'
-							>
-								Word Guessing
-							</CardHeader>
-						</Card>
-					</Link>
-					<Link href='/game/multiple-choice' className='space-y-2'>
-						<Card className='overflow-hidden hover:bg-accent/10 p-4 flex justify-center flex-col items-center gap-8 group bg-foreground'>
-							<Squares2X2Icon className='w-40 h-40 text-orange-700/50' />
-							<CardHeader
-								shadow={false}
-								color='transparent'
-								className='text-center text-xl text-black font-semibold group-hover:text-primary'
-							>
-								Multiple Choice
-							</CardHeader>
-						</Card>
-					</Link>
-				</div>
-			</div>
+			<OtherGames />	
 		</div>
 	);
 };

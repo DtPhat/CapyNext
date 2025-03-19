@@ -1,23 +1,9 @@
 import { CollectionItem } from '@/lib/definitions';
 import shuffle from 'lodash/shuffle';
-import { isSentence } from './string';
+import { isSentence } from '../../../../lib/helpers/string';
 
-export const splitAndShuffleCollection = (data: CollectionItem[]) => {
-	const slitData: DataToSplit = [];
-	data.forEach((item) => {
-		const { _id, sourceText, translation } = item;
-		slitData.push(
-			{
-				id: _id,
-				text: sourceText,
-			},
-			{
-				id: _id,
-				text: translation,
-			}
-		);
-	});
-	return shuffle(slitData);
+export const shuffleCollectionForFlashcard = (data: CollectionItem[]) => {
+	return shuffle(data);
 };
 
 export const splitAndShuffleCollectionForMatchingGame = (

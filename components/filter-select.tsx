@@ -8,6 +8,7 @@ import {
 import { FilterX } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
+import { BarSkeleton } from "./skeleton";
 
 interface MenuCheckboxProps {
   name: string,
@@ -59,7 +60,7 @@ export function MenuCheckbox({ name, checklist }: MenuCheckboxProps) {
 
 export function FilterSelect({ name, checklist }: MenuCheckboxProps) {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<BarSkeleton/>}>
       <MenuCheckbox name={name} checklist={checklist} />
     </Suspense>
   )
