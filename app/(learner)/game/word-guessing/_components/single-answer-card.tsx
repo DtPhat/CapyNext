@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 import { useGSAP } from '@gsap/react';
+import { cardStyles } from '../../_lib/styles';
 
 gsap.registerPlugin(useGSAP);
 
@@ -47,9 +48,9 @@ const SingleAnswerCard = (props: Props) => {
 		
         if(selectedCard !== item) {
 		    tl.current.reversed(false);
-            console.log(item, " is reversing")
+            // console.log(item, " is reversing")
         } else {
-            console.log(item, " is playing")
+            // console.log(item, " is playing")
 		    tl.current.reversed(true);
         }
     },{dependencies: [selectedCard, tl, item]})
@@ -67,7 +68,8 @@ const SingleAnswerCard = (props: Props) => {
 			onClick={handleOnClick}
 			className={clsx(
 				'font-semibold text-2xl border shadow-md bg-white rounded-md cursor-pointer select-none flex items-center justify-center',
-				isSentence ? 'px-2 py-1' : ' min-w-3 max-w-5 '
+				isSentence ? 'px-2 py-1' : ' min-w-3 max-w-5 ',
+				`${cardStyles.gradient}`
 			)}
 		>
 			{item}

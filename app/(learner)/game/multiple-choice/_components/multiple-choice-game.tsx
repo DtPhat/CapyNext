@@ -14,6 +14,8 @@ import { splitAndShuffleFourAnswers } from '@/app/(learner)/game/_lib/utils';
 import MultipleChoiceCard from './multiple-choice-card';
 import CorrectAnswerFooter from '../../_components/correct-answer-footer';
 import WrongAnswerFooter from '../../_components/wrong-answer-footer';
+import { RectangleSkeleton } from '@/components/skeleton';
+import NoData from '@/components/no-data';
 
 type MultipleChoiceData = {
 	id: string;
@@ -29,7 +31,7 @@ type ShuffleDataType = {
 const MultipleChoiceGame = () => {
 	const { chosenCollection } = useContext(GameContext);
 
-	const { data } = useSWR('/vocabularies/' + chosenCollection?._id);
+	const { data, isLoading } = useSWR('/vocabularies/' + chosenCollection?._id);
 
 	const [questionsBank, setQuestionsBank] = useState<ShuffleDataType>([]);
 
@@ -77,17 +79,12 @@ const MultipleChoiceGame = () => {
 		}
 	}, [selectedCard]);
 
-	if (!data) return <Loader />;
+	if (isLoading || !data) return <RectangleSkeleton />;
 
-	if (data.length < 5)
-		return (
-			<Typography variant='h5'
-			color='blue-gray'
-			className='mb-2 text-center'>
-				The collection does not have enough vocabulary. Please add more
-				or select another collection!
-			</Typography>
-		);
+	if (data?.length < 5) return (
+		<NoData text='The collection does not have enough vocabulary. Please add more
+		or select another collection!'/>
+	);
 
 	return (
 		<div className='w-full h-full space-y-4'>

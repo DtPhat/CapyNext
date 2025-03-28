@@ -64,7 +64,7 @@ const WordGuessingAnswerCard = (props: Props) => {
 	}, [questionData, fillerAnswers, isSentence, answer]);
 
 	return (
-		<div className='flex justify-center gap-4 w-full'>
+		<div className='flex justify-center gap-4 w-full flex-wrap'>
 			{answers.map((item, index) => (
 				<SingleAnswerCard
 					key={index + item}

@@ -1,6 +1,7 @@
 import { Card, CardBody, Typography } from '@material-tailwind/react';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
+import { cardStyles } from '../../_lib/styles';
 
 type Props = {
 	item: {
@@ -46,7 +47,7 @@ function MultipleChoiceCard(props: Props) {
 						: 'animate-wiggle duration-200 repeat-[2] border-red-600/60'
 					: '',
 					disabled ?  'text-gray-400 cursor-default'
-					: 'hover:text-accent hover:font-semibold active:border-b-2 active:mt-1 '
+					: `${cardStyles.gradient} hover:font-semibold active:border-b-2 active:mt-1 `
 			)}
 			onClick={handleOnClick}
 		>

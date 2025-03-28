@@ -15,6 +15,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import NoData from '@/components/no-data';
 import { shuffle } from 'lodash';
 import { toast } from '@/components/ui/use-toast';
+import { cardStyles } from '../../_lib/styles';
 
 
 const CardSet = ({ initialData = [] }: { initialData: CollectionItem[] }) => {
@@ -24,7 +25,7 @@ const CardSet = ({ initialData = [] }: { initialData: CollectionItem[] }) => {
 	const [data, setData] = useState(initialData);
 
 	const styles = {
-		card: `text-black bg-gradient-to-b from-accent/10 via-white to-accent/10 p-16
+		card: `text-black bg-foreground ${cardStyles.gradient} p-16
 		w-[52rem] h-96 rounded-xl cursor-pointer flex justify-center items-center font-semibold shadow-lg text-xl transition-transform duration-100
 		`,
 	};
@@ -45,6 +46,17 @@ const CardSet = ({ initialData = [] }: { initialData: CollectionItem[] }) => {
 		}
 	};
 
+	const shuffleData = () => {
+		const shuffledCollection = shuffle(data);
+		setData(shuffledCollection)
+		setActiveStep(0)
+		setFlip(false);
+		toast({
+			title: "Shuffled!",
+			description: "The collection has been reaarranged.",
+		});
+	}
+
 	const variants = {
 		enter: (dir: number) => ({
 			x: dir > 0 ? 1000 : -1000,
@@ -63,55 +75,65 @@ const CardSet = ({ initialData = [] }: { initialData: CollectionItem[] }) => {
 		}),
 	};
 
-	const shuffleData = () => {
-		const shuffledCollection = shuffle(data);
-		setData(shuffledCollection)
-		toast({
-			title: "Shuffled!",
-			description: "The collection has been reaarranged.",
-		});
-	}
 
 	return (
 		<div className='w-full flex flex-col items-center text-black'>
-			<div>
-				<div className="relative w-full h-full overflow-hidden p-4">
-					<AnimatePresence initial={false} custom={direction}>
-						<motion.div
-							key={activeStep}
-							variants={variants}
-							custom={direction} // direction must be a number
-							initial="enter"
-							animate="center"
-							exit="exit"
-							transition={{
-								x: { type: 'spring', stiffness: 300, damping: 30 },
-								opacity: { duration: 0.2 },
-							}}
-						>
-							<div onClick={() => setFlip(!flip)}>
-								<ReactCardFlip
-									isFlipped={flip}
-									flipDirection='vertical'
-								>
-									<div className={styles.card}>
-										{data.at(activeStep)?.sourceText}
-									</div>
-									<div className={styles.card}>
-										{data.at(activeStep)?.translation}
-									</div>
-								</ReactCardFlip>
-							</div>
-						</motion.div>
-					</AnimatePresence>
+			<div className='flex'>
+				<ButtonIcon
+					className='text-transparent hover:text-primary hover:bg-transparent'
+					Icon={
+						<ChevronLeftIcon className='w-6 h-6' />
+					}
+					iconDirection='left'
+					onClick={handlePrev}
+				/>
+				<div className='flex flex-col'>
+					<div className="relative w-full h-full overflow-hidden p-4">
+						<AnimatePresence initial={false} custom={direction}>
+							<motion.div
+								key={activeStep}
+								variants={variants}
+								custom={direction} // direction must be a number
+								initial="enter"
+								animate="center"
+								exit="exit"
+								transition={{
+									x: { type: 'spring', stiffness: 300, damping: 30 },
+									opacity: { duration: 0.2 },
+								}}
+							>
+								<div onClick={() => setFlip(!flip)}>
+									<ReactCardFlip
+										isFlipped={flip}
+										flipDirection='vertical'
+									>
+										<div className={styles.card}>
+											{data.at(activeStep)?.sourceText}
+										</div>
+										<div className={styles.card}>
+											{data.at(activeStep)?.translation}
+										</div>
+									</ReactCardFlip>
+								</div>
+							</motion.div>
+						</AnimatePresence>
+					</div>
+					<Progress
+						value={((activeStep + 1) / data.length) * 100}
+						className='mt-4'
+						size='sm'
+					/>
 				</div>
-
-				<Progress
-					value={((activeStep + 1) / data.length) * 100}
-					className='mt-4'
-					size='sm'
+				<ButtonIcon
+					className='text-transparent hover:text-primary hover:bg-transparent'
+					Icon={
+						<ChevronRightIcon className='w-6 h-6' />
+					}
+					iconDirection='right'
+					onClick={handleNext}
 				/>
 			</div>
+
 			<div className='w-[52rem]'>
 				<div className='w-full py-4 flex gap-4 items-center justify-between'>
 					<div>
@@ -151,7 +173,14 @@ const CardSet = ({ initialData = [] }: { initialData: CollectionItem[] }) => {
 					<div>
 						<IconButton
 							className='text-primary'
+							disabled
 							variant='text'
+							onClick={() => toast({
+								variant: "destructive",
+								title: "Feature is under development.",
+								description: "Please try later!",
+							}
+							)}
 						>
 							<Cog6ToothIcon className='h-6 w-6' />
 						</IconButton>

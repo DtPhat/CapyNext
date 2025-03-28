@@ -1,6 +1,7 @@
 import { Card, CardBody, Typography } from '@material-tailwind/react';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
+import { cardStyles } from '../../_lib/styles';
 
 type Props = {
 	item: {
@@ -14,7 +15,7 @@ type Props = {
 	toggleLevelReset: boolean;
 };
 
-const MatchingGameCard = (props: Props) => {
+const MatchingCard = (props: Props) => {
 	const { item, selectedOne, selectedTwo, onClick, shouldWait, toggleLevelReset } = props;
 
 	const [disabled, setDisabled] = useState<boolean>(false);
@@ -69,7 +70,7 @@ const MatchingGameCard = (props: Props) => {
 	return (
 		<Card
 			className={clsx(
-				'bg-foreground select-none transition-all duration-150 overflow-hidden w-60 py-2 border-2  cursor-pointer border-b-[6px]    ',
+				'bg-foreground select-none transition-all duration-150 overflow-hidden min-w-60 py-2 border-2 cursor-pointer border-b-[6px]',
 				selected && ' border-accent/60',
 				selected && selectedOne && selectedTwo 
 					? matched
@@ -78,7 +79,7 @@ const MatchingGameCard = (props: Props) => {
 					: '',
 				disabled
 					? 'text-gray-400 cursor-default'
-					: 'hover:text-accent hover:font-bold active:border-b-2 active:mt-1 '
+					: `${cardStyles.gradient} active:border-b-2 active:mt-1 `
 			)}
 			onClick={handleOnClick}
 		>
@@ -101,4 +102,4 @@ const MatchingGameCard = (props: Props) => {
 	);
 };
 
-export default MatchingGameCard;
+export default MatchingCard;

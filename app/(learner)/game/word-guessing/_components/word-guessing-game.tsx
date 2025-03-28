@@ -1,23 +1,21 @@
 'use client';
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  Typography,
-  Button,
-} from '@material-tailwind/react';
-import useSWR from 'swr';
 import { GameContext } from '@/app/(learner)/game/_lib/context';
 import { getWordGuessingData } from '@/app/(learner)/game/_lib/utils';
-import WordGuessingQuestion from './word-guessing-question';
-import Loader from '@/components/loader';
-import WordGuessingAnswerCard from './word-guessing-answer-card';
-import clsx from 'clsx';
-import CorrectAnswerFooter from '../../_components/correct-answer-footer';
-import WrongAnswerFooter from '../../_components/wrong-answer-footer';
 import NoData from '@/components/no-data';
 import { RectangleSkeleton } from '@/components/skeleton';
+import {
+  Button,
+  Card,
+  CardBody,
+  Typography
+} from '@material-tailwind/react';
+import clsx from 'clsx';
+import { useContext, useEffect, useState } from 'react';
+import useSWR from 'swr';
+import CorrectAnswerFooter from '../../_components/correct-answer-footer';
+import WrongAnswerFooter from '../../_components/wrong-answer-footer';
+import WordGuessingAnswerCard from './word-guessing-answers';
+import WordGuessingQuestion from './word-guessing-question';
 
 const WordGuessingGame = () => {
   const { chosenCollection } = useContext(GameContext);
@@ -85,7 +83,7 @@ const WordGuessingGame = () => {
     setQuestion(questionSet[step])
   }, [step, questionSet])
 
-  if (isLoading) return <RectangleSkeleton />;
+  if (isLoading || !data) return <RectangleSkeleton />;
 
   if (data?.length < 5) return (
     <NoData text='The collection does not have enough vocabulary. Please add more

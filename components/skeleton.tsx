@@ -23,7 +23,7 @@ export const BarSkeleton = () => {
 export const RectangleSkeleton = () => {
   return (
     <div className="flex flex-col items-center">
-      <SkeletonUI className="h-96 w-[52rem] rounded-xl bg-primary/20" />
+      <SkeletonUI className="h-96 w-full rounded-xl bg-primary/20" />
     </div>
   )
 }

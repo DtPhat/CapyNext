@@ -51,3 +51,15 @@ export const restrictedRoutes = {
   // premium: ['/game/word-guessing', '/game/multiple-choice'],
   premium: ['']
 }
+
+export const toastMessages = {
+  underDevelopment: {
+    variant: "destructive",
+    title: "Feature is under development.",
+    description: "Please try later!",
+  },
+  success: {
+    title: "Success!",
+    description: "Your action was completed.",
+  }
+}

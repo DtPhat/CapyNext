@@ -88,68 +88,72 @@ export const splitAndShuffleFourAnswers = (data: CollectionItem[]) => {
 };
 
 export const getWordGuessingData = (data: CollectionItem[]) => {
-	const shuffledData = shuffle(data);
-	const randomWordsData: string[] = [];
-	const questionsBank: {
-		index: number;
-		question: string[];
-		answer: string;
-		isSentence: boolean;
-	}[] = [];
+  const shuffledData = shuffle(data);
+  const randomWordsData: string[] = [];
+  const questionsBank: {
+    index: number;
+    question: string[];
+    answer: string;
+    isSentence: boolean;
+  }[] = [];
 
-	shuffledData.forEach((element) => {
-		if (isSentence(element.sourceText)) {
-			// Split the sentence into words using a regular expression
-			const sentence = element.sourceText;
+  shuffledData.forEach((element) => {
+    if (isSentence(element.sourceText)) {
+      // Split the sentence into words using a regular expression
+      const sentence = element.sourceText;
 
-			const words = sentence.match(/\b(\w+)\b/g);
+      const words = sentence.match(/\b(\w+)\b/g);
 
-			if (words && words?.length > 0) {
-				words.forEach((word) => randomWordsData.push(word.trim()));
+      if (words && words?.length > 0) {
+        words.forEach((word) => {
+          if (randomWordsData.length < 12) { // only add up to 12 words
+            randomWordsData.push(word.trim());
+          }
+        });
 
-				const randomIndex = Math.floor(Math.random() * words.length);
+        const randomIndex = Math.floor(Math.random() * words.length);
 
-				const replacedWord = words[randomIndex];
-				words[randomIndex] = '__________';
+        const replacedWord = words[randomIndex];
+        words[randomIndex] = '__________';
 
-				// const newSentence = words.join(' ');
+        questionsBank.push({
+          index: randomIndex,
+          question: words,
+          answer: replacedWord,
+          isSentence: true,
+        });
+      }
+    } else {
+      const word = element.sourceText.trim();
+      if (randomWordsData.length < 12) { // only add up to 12 words
+        randomWordsData.push(word);
+      }
 
-				questionsBank.push({
-					index: randomIndex,
-					question: words,
-					answer: replacedWord,
-					isSentence: true,
-				});
-			}
-		} else {
-			const word = element.sourceText.trim();
-			randomWordsData.push(word);
+      const randomIndex = Math.floor(Math.random() * word.length);
+      const replacedCharacter = word.charAt(randomIndex);
+      let newWord = '';
+      if (randomIndex === word.length - 1) {
+        newWord = word.substring(0, randomIndex) + '_';
+      } else {
+        newWord =
+          word.substring(0, randomIndex) +
+          '_' +
+          word.substring(randomIndex + 1);
+      }
 
-			const randomIndex = Math.floor(Math.random() * word.length);
-			const replacedCharacter = word.charAt(randomIndex);
-			let newWord = '';
-			if (randomIndex === word.length - 1) {
-				newWord = word.substring(0, randomIndex) + '_';
-			} else {
-				newWord =
-					word.substring(0, randomIndex) +
-					'_' +
-					word.substring(randomIndex + 1);
-			}
+      questionsBank.push({
+        index: randomIndex,
+        question: newWord.split(''),
+        answer: replacedCharacter,
+        isSentence: false,
+      });
+    }
+  });
 
-			questionsBank.push({
-				index: randomIndex,
-				question: newWord.split(''),
-				answer: replacedCharacter,
-				isSentence: false,
-			});
-		}
-	});
-
-	return {
-		fillerAnswers: randomWordsData,
-		questions: questionsBank,
-	};
+  return {
+    fillerAnswers: randomWordsData,
+    questions: questionsBank,
+  };
 };
 
 type MultipleChoiceData = {

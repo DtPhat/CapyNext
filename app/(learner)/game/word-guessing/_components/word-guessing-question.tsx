@@ -16,7 +16,7 @@ const WordGuessingQuestion = (props: PropsType) => {
 	return (
 		<div
 			className={clsx(
-				'w-full flex items-center justify-center',
+				'w-full flex items-center justify-center flex-wrap',
 				isSentence ? 'gap-4' : 'gap-[2px]'
 			)}
 		>

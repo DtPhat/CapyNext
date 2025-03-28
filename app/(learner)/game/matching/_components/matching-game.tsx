@@ -5,22 +5,26 @@ import { GameContext } from '@/app/(learner)/game/_lib/context';
 import {
   Card,
   CardBody,
+  IconButton,
+  Tooltip,
   Typography
 } from '@material-tailwind/react';
 import { delay } from 'lodash';
-import { Heart } from 'lucide-react';
+import { Heart, RotateCcw } from 'lucide-react';
 import { useContext, useEffect, useState } from 'react';
 import useSWR from 'swr';
 import CorrectAnswerFooter from '../../_components/correct-answer-footer';
 import WrongAnswerFooter from '../../_components/wrong-answer-footer';
-import MatchingGameCard from './matching-game-card';
+import MatchingGameCard from './matching-card';
 import { Rectangle } from 'recharts';
 import { RectangleSkeleton } from '@/components/skeleton';
 import NoData from '@/components/no-data';
+import ButtonIcon from '@/components/button-icon';
+import { toast } from '@/components/ui/use-toast';
 const MatchingGame = () => {
   const { chosenCollection } = useContext(GameContext);
 
-  const { data, isLoading } = useSWR('/vocabularies/' + chosenCollection?._id)
+  const { data, isLoading, isValidating } = useSWR('/vocabularies/' + chosenCollection?._id)
 
   const [shouldWait, setShouldWait] = useState<boolean>(false);
 
@@ -82,29 +86,34 @@ const MatchingGame = () => {
     setToggleLevelReset((prev) => !prev);
   };
 
-  const nextQuestionSet = () => {
-    setSelectedTranslationCards(null);
-    setSelectedSourceCards(null);
-    setNumberOfQuestionAnswered(0);
-    setNumberOfLives(5);
-    setShouldWait(false);
-    setToggleLevelReset((prev) => !prev);
-    getShuffledData();
-  };
+  const createNewGame = () => {
+    resetCurrentLevel();
+    shuffledData()
+    toast({
+      title: "Reset!",
+      description: "New game was created!",
+    })
+  }
 
-  const getShuffledData = () => {
-    const shuffledData = splitAndShuffleCollectionForMatchingGame(
-      data
-    );
+  // const nextQuestionSet = () => {
+  //   setSelectedTranslationCards(null);
+  //   setSelectedSourceCards(null);
+  //   setNumberOfQuestionAnswered(0);
+  //   setNumberOfLives(5);
+  //   setShouldWait(false);
+  //   setToggleLevelReset((prev) => !prev);
+  //   shuffledData();
+  // };
 
+  const shuffledData = () => {
+    const shuffledData = splitAndShuffleCollectionForMatchingGame(data);
     setShuffledSourceTexts(shuffledData.shuffledSourceTexts);
     setShuffledTranslations(shuffledData.shuffledTranslations);
   };
 
   useEffect(() => {
     if (!data) return;
-
-    getShuffledData();
+    shuffledData();
   }, [data]);
 
   useEffect(() => {
@@ -122,9 +131,9 @@ const MatchingGame = () => {
     setShouldWait(false);
   }, [selectedSourceCards, selectedTranslationCards]);
 
-  if (isLoading) return <RectangleSkeleton />;
+  if (isLoading || !data) return <RectangleSkeleton />;
 
-  if (data?.length < 5) return (
+  if (data.length < 5) return (
     <NoData text='The collection does not have enough vocabulary. Please add more
 		or select another collection!'/>
   );
@@ -132,26 +141,37 @@ const MatchingGame = () => {
   return (
     <>
       <div className='w-full relative '>
-        <Card className='w-full mb-4'>
-          <CardBody className=' h-full'>
-            <Typography
-              variant='h5'
-              color='blue-gray'
-              className='mb-2 text-center'
-            >
-              Match the source text with its translation
-            </Typography>
-            <Typography
-              variant='h5'
-              color='blue-gray'
-              key={numberOfLives}
-              className='mb-2 text-center text-red-600 font-semibold text-lg animate-wiggle duration-200 repeat-[2] flex items-center justify-center gap-2'
-            >
-              {numberOfLives}{' '}
-              <Heart color='#e53935' fill='#e53935' />
-            </Typography>
+        {/* <Card className='w-full mb-4'>
+          <CardBody className='h-full p-0'>
+            
           </CardBody>
-        </Card>
+        </Card> */}
+        <div className='flex justify-between mb-4 items-center'>
+          <Tooltip content="Reset">
+            <IconButton
+              onClick={createNewGame}
+              variant='text'
+              className='text-primary'
+              size='sm'
+            >
+              <RotateCcw />
+            </IconButton>
+          </Tooltip>
+          <Typography
+            variant='h5'
+            className='mb-2 text-center'
+          >
+            Match the source text with its translation
+          </Typography>
+          <Typography
+            variant='h2'
+            key={numberOfLives}
+            className='mb-2 text-center text-red-600 font-semibold text-xl animate-wiggle duration-200 repeat-[10] flex items-center justify-center gap-2'
+          >
+            {numberOfLives}{' '}
+            <Heart color='#e53935' fill='#e53935' />
+          </Typography>
+        </div>
         <div className='grid grid-cols-2 grid-rows-1 gap-4  px-20'>
           <div className='flex flex-col  gap-4 items-center h-full justify-between'>
             {shuffledSourceTexts?.map((item) => (
@@ -183,11 +203,13 @@ const MatchingGame = () => {
       </div>
       <CorrectAnswerFooter
         shown={numberOfQuestionAnswered === shuffledSourceTexts?.length}
-        onClick={nextQuestionSet}
+        onClick={createNewGame}
+        title='You won! Do you want to play a new game?'
       />
       <WrongAnswerFooter
         shown={numberOfLives === 0}
         onClick={resetCurrentLevel}
+        title='You lost!'
       />
     </>
   );
