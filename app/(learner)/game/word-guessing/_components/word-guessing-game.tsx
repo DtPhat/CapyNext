@@ -1,8 +1,8 @@
 'use client';
 import { GameContext } from '@/app/(learner)/game/_lib/context';
 import { getWordGuessingData } from '@/app/(learner)/game/_lib/utils';
-import NoData from '@/components/no-data';
-import { RectangleSkeleton } from '@/components/skeleton';
+import NoData from '@/components/sections/no-data';
+import { RectangleSkeleton } from '@/components/sections/skeleton';
 import {
   Button,
   Card,

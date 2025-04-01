@@ -6,7 +6,7 @@ import styles from '@/lib/styles';
 import { footerVariants } from '@/lib/motion';
 import { Button } from '@material-tailwind/react';
 import Link from 'next/link';
-import { AppLogo2 } from '../logo';
+import { AppLogo2 } from '../../../components/logo';
 
 const Footer = () => (
   <motion.footer

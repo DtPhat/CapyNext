@@ -1,5 +1,5 @@
 import React from 'react'
-import { Skeleton as SkeletonUI } from './ui/skeleton'
+import { Skeleton as SkeletonUI } from '../ui/skeleton'
 export const CardSkeleton = () => {
   return (
     <div className="flex flex-col space-y-3">

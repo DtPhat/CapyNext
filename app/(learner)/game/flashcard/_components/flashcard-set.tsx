@@ -1,6 +1,6 @@
 'use client';
 import ButtonIcon from '@/components/button-icon';
-import Loader from '@/components/loader';
+import { toast } from '@/components/ui/use-toast';
 import { CollectionItem } from '@/lib/definitions';
 import {
 	ChevronLeftIcon,
@@ -8,13 +8,11 @@ import {
 	Cog6ToothIcon,
 } from '@heroicons/react/24/solid';
 import { IconButton, Progress, Tooltip } from '@material-tailwind/react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { shuffle } from 'lodash';
+import { ShuffleIcon } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import ReactCardFlip from 'react-card-flip';
-import { ShuffleIcon } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import NoData from '@/components/no-data';
-import { shuffle } from 'lodash';
-import { toast } from '@/components/ui/use-toast';
 import { cardStyles } from '../../_lib/styles';
 
 

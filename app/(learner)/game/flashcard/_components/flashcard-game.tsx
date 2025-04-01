@@ -4,8 +4,8 @@ import { Collection, CollectionItem } from '@/lib/definitions';
 import { GameContext } from '@/app/(learner)/game/_lib/context';
 import { useContext, useEffect } from 'react';
 import useSWR from 'swr';
-import { RectangleSkeleton } from "@/components/skeleton";
-import NoData from "@/components/no-data";
+import { RectangleSkeleton } from "@/components/sections/skeleton";
+import NoData from "@/components/sections/no-data";
 const FlashCardGame = () => {
   const { chosenCollection } = useContext(GameContext)
   const { data, isLoading } = useSWR<CollectionItem[]>('/vocabularies/' + chosenCollection?._id)

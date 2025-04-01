@@ -1,6 +1,6 @@
 "use client"
 
-import Container from "@/components/container"
+import Container from "@/components/layout/container"
 import { useAuth } from "@/providers/auth"
 import { Crown } from "lucide-react"
 const Account = () => {

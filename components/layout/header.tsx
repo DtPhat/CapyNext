@@ -13,7 +13,9 @@ import { Abril_Fatface } from "next/font/google";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { LoginDialog } from "../dialog";
-import UserMenu from "../user-menu";
+import UserMenu from "./user-menu";
+import Image from "next/image";
+
 const abrilFatface = Abril_Fatface({ weight: "400", subsets: ["latin"] });
 
 export default function Header() {
@@ -85,7 +87,7 @@ export default function Header() {
               <Bars3Icon className="h-10 w-10 stroke-2 hover:bg-brown-primary/10 rounded-3xl p-1 text-black" />
             </button>
             <Link href='/' className="flex items-center justify-between select-none">
-              <img src="/icon.png" alt="brand" className="w-9 h-9" />
+              <Image src="/icon.png" alt="brand" className="w-9 h-9" width={36} height={36} />
               <span className={`${abrilFatface.className} text-2xl text-brown-primary`}>Capy</span>
               <span className={`${abrilFatface.className} text-2xl text-primary`}>Venture</span>
             </Link>

@@ -8,7 +8,7 @@ import {
 import { FilterX } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
-import { BarSkeleton } from "./skeleton";
+import { BarSkeleton } from "./sections/skeleton";
 
 interface MenuCheckboxProps {
   name: string,

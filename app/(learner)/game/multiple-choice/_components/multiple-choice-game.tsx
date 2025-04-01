@@ -14,8 +14,8 @@ import { splitAndShuffleFourAnswers } from '@/app/(learner)/game/_lib/utils';
 import MultipleChoiceCard from './multiple-choice-card';
 import CorrectAnswerFooter from '../../_components/correct-answer-footer';
 import WrongAnswerFooter from '../../_components/wrong-answer-footer';
-import { RectangleSkeleton } from '@/components/skeleton';
-import NoData from '@/components/no-data';
+import { RectangleSkeleton } from '@/components/sections/skeleton';
+import NoData from '@/components/sections/no-data';
 
 type MultipleChoiceData = {
 	id: string;

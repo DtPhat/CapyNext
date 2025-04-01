@@ -1,4 +1,4 @@
-import { ContentSkeleton } from '@/components/skeleton'
+import { ContentSkeleton } from '@/components/sections/skeleton'
 import React from 'react'
 
 const Loading = () => {

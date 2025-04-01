@@ -1,10 +1,10 @@
 'use client';
-import Loader from '@/components/loader';
-import { splitAndShuffleCollectionForMatchingGame } from '@/app/(learner)/game/_lib/utils';
 import { GameContext } from '@/app/(learner)/game/_lib/context';
+import { splitAndShuffleCollectionForMatchingGame } from '@/app/(learner)/game/_lib/utils';
+import NoData from '@/components/sections/no-data';
+import { RectangleSkeleton } from '@/components/sections/skeleton';
+import { toast } from '@/components/ui/use-toast';
 import {
-  Card,
-  CardBody,
   IconButton,
   Tooltip,
   Typography
@@ -16,11 +16,6 @@ import useSWR from 'swr';
 import CorrectAnswerFooter from '../../_components/correct-answer-footer';
 import WrongAnswerFooter from '../../_components/wrong-answer-footer';
 import MatchingGameCard from './matching-card';
-import { Rectangle } from 'recharts';
-import { RectangleSkeleton } from '@/components/skeleton';
-import NoData from '@/components/no-data';
-import ButtonIcon from '@/components/button-icon';
-import { toast } from '@/components/ui/use-toast';
 const MatchingGame = () => {
   const { chosenCollection } = useContext(GameContext);
 

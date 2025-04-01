@@ -1,4 +1,4 @@
-import Container from "@/components/container";
+import Container from "@/components/layout/container";
 import { FilterSelect, ClearFilter } from "@/components/filter-select";
 import SearchBar from "@/components/search-bar";
 import { PlayCircleIcon } from "lucide-react";

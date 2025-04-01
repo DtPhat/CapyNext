@@ -17,7 +17,7 @@ import { useRouter } from 'next/navigation'
 import { Abril_Fatface } from "next/font/google";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import Separator from "./separator";
+import Separator from "./sections/separator";
 import { subscribePremium } from "@/lib/actions/payment";
 import { Toast } from "./ui/toast";
 const abrilFatface = Abril_Fatface({ weight: "400", subsets: ["latin"] });
@@ -318,7 +318,7 @@ export function GettingStartedDialog({ OpenButton }: DialogProps) {
 
   return (
     <>
-      <button onClick={handleOpen}>{OpenButton}</button>
+      <div onClick={handleOpen}>{OpenButton}</div>
       <Dialog open={isOpen} handler={handleOpen} size="md">
         <DialogHeader>
           <Typography variant="h4" color="blue-gray">

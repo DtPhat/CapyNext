@@ -1,14 +1,10 @@
-import Container from "@/components/container";
 import { ClearFilter, FilterSelect } from "@/components/filter-select";
+import Container from "@/components/layout/container";
 import SearchBar from "@/components/search-bar";
-import { serverFetcher } from "@/lib/config/fetchter";
 import { ENGLISH_LEVELS } from "@/lib/constants";
 import StoriesCarousel from "./_components/carousel";
 import StoryList from "./_components/story-list";
 import { getStory } from "./_lib/actions";
-import { Suspense } from "react";
-import Loading from "./loading";
-import { PaginationWrapper } from "@/components/pagination";
 
 export default async function Stories({
   searchParams,

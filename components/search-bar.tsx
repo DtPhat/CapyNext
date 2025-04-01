@@ -4,7 +4,7 @@ import { Button } from '@material-tailwind/react';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
-import { BarSkeleton } from './skeleton';
+import { BarSkeleton } from './sections/skeleton';
 
 interface SearchBarProps {
   givenKeyword?: string,

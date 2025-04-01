@@ -24,7 +24,7 @@ import {
   ArrowPathIcon
 } from "@heroicons/react/24/solid";
 import { CreateCollection } from "@/components/collection";
-import Loader from "@/components/loader";
+import Loader from "@/components/sections/loader";
 import useSWR, { mutate } from "swr";
 import { Collection } from "@/lib/definitions";
 import { postFetcher } from "@/lib/config/fetchter";

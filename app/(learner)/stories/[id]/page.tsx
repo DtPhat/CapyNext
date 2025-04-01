@@ -1,4 +1,4 @@
-import Container from "@/components/container";
+import Container from "@/components/layout/container";
 import TranslatableSection from "@/components/layout/translatable-section";
 import { getStory } from "../_lib/actions";
 import { Story } from "@/lib/definitions";

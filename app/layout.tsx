@@ -27,13 +27,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         fontSans.variable
       )}>
         <Providers>
-          <Header />
+          {/* <Header />
           <section className="flex w-full">
             <Sidebar />
-            <div className="w-full flex justify-center">
+            <div className="w-full flex justify-center"> */}
               {children}
-            </div>
-          </section>
+            {/* </div>
+          </section> */}
         </Providers>
         <Toaster />
       </body>

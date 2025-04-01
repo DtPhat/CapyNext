@@ -1,10 +1,10 @@
 "use client"
 import ButtonIcon, { NavigateButtonIcon } from '@/components/button-icon'
-import Container from '@/components/container'
+import Container from '@/components/layout/container'
 import { GettingStartedDialog } from '@/components/dialog'
 import { HomeSearchBar } from '@/components/search-bar'
-import Separator from '@/components/separator'
-import { CardSkeleton } from '@/components/skeleton'
+import Separator from '@/components/sections/separator'
+import { CardSkeleton } from '@/components/sections/skeleton'
 import { BASE_URL } from '@/lib/constants'
 import { PaginatedData, Story, Video } from '@/lib/definitions'
 import { useAuth } from '@/providers/auth'
@@ -12,8 +12,8 @@ import { Rocket } from 'lucide-react'
 import Image from 'next/image'
 // import { useSearchParams } from 'next/navigation'
 import { Suspense, useEffect, useState } from 'react'
-import { MiniStoryCard } from '../(learner)/stories/_components/card'
-import { MiniVideoCard } from '../(learner)/videos/_components/card'
+import { MiniStoryCard } from '@/app/(learner)/stories/_components/card'
+import { MiniVideoCard } from '@/app/(learner)/videos/_components/card'
 
 const Home = () => {
   const { login } = useAuth()

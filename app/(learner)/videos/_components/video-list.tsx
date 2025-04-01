@@ -2,8 +2,8 @@ import React from 'react'
 import VideoCard from './card'
 import { getVideos } from '../_lib/actions';
 import { PaginatedData, Video } from '@/lib/definitions'
-import NoData from '@/components/no-data'
-import { PaginationWrapper } from '@/components/pagination';
+import NoData from '@/components/sections/no-data'
+import { PaginationWrapper } from '@/components/sections/pagination';
 import Link from 'next/link';
 
 interface VideoListProps {

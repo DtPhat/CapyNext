@@ -1,5 +1,5 @@
 'use client';
-import Separator from '@/components/separator';
+import Separator from '@/components/sections/separator';
 import { Collection } from '@/lib/definitions';
 import {
 	ChevronDownIcon

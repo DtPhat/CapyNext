@@ -1,13 +1,10 @@
 
-import React from 'react'
 // import { storyList } from "@/lib/placeholders";
-import StoryCard from "./card";
+import { PaginationWrapper } from '@/components/sections/pagination';
+import NoData from '@/components/sections/no-data';
 import Link from 'next/link';
-import { BASE_URL } from '@/lib/constants';
-import { PaginatedData, Story } from '@/lib/definitions';
 import { getStories } from '../_lib/actions';
-import NoData from '@/components/no-data';
-import { PaginationWrapper } from '@/components/pagination';
+import StoryCard from "./card";
 
 interface StorylistProps {
   title?: string

@@ -1,9 +1,9 @@
 "use client"
 import { CreateCollection } from '@/components/collection';
-import Container from '@/components/container';
-import NoData from '@/components/no-data';
+import Container from '@/components/layout/container';
+import NoData from '@/components/sections/no-data';
 import SearchBar from '@/components/search-bar';
-import { BarSkeleton } from '@/components/skeleton';
+import { BarSkeleton } from '@/components/sections/skeleton';
 import { Collection } from '@/lib/definitions';
 import useSWR from 'swr';
 import CollectionCard from './_components/card';

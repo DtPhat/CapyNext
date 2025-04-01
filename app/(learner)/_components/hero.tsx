@@ -5,7 +5,7 @@ import styles from '@/lib/styles';
 import { slideIn, staggerContainer, textVariant } from '@/lib/motion';
 import { Abril_Fatface } from 'next/font/google';
 import { Button } from '@material-tailwind/react';
-import { GettingStartedDialog } from '../dialog';
+import { GettingStartedDialog } from '../../../components/dialog';
 const abrilFatface = Abril_Fatface({ weight: "400", subsets: ["latin"] });
 import { useRouter } from 'next/navigation'
 import { useContext } from 'react';

@@ -1,7 +1,7 @@
 "use client"
-import Footer from '@/components/sections/footer'
-import Features from '@/components/sections/features'
-import Hero from '@/components/sections/hero'
+import Footer from '@/app/(learner)/_components/footer'
+import Features from '@/app/(learner)/_components/features'
+import Hero from '@/app/(learner)/_components/hero'
 import { useAuth } from '@/providers/auth'
 // import About from '@/components/sections/about'
 

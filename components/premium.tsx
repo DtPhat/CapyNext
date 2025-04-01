@@ -1,18 +1,17 @@
 'use client'
-import { CrownIcon } from 'lucide-react'
-import React, { MouseEventHandler, ReactNode } from 'react'
+import { useAuth } from '@/providers/auth';
 import {
   Button,
   Dialog,
-  DialogHeader,
   DialogBody,
   DialogFooter,
+  DialogHeader,
   Typography,
 } from "@material-tailwind/react";
-import { usePathname, useRouter } from 'next/navigation';
-import Separator from './separator';
-import { subscribePremium } from '@/lib/actions/payment';
-import { useAuth } from '@/providers/auth';
+import { CrownIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import React, { MouseEventHandler, ReactNode } from 'react';
+import Separator from './sections/separator';
 import { useToast } from './ui/use-toast';
 interface PremiumProps {
   children: ReactNode,

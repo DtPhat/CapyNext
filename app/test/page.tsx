@@ -1,5 +1,5 @@
 'use client'
-import Container from '@/components/container';
+import Container from '@/components/layout/container';
 import React, { useEffect, useState } from 'react'
 
 const TestingComponent = () => {
