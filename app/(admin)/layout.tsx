@@ -12,14 +12,14 @@ export default function DashboardLayout({
     <SidebarProvider>
       <DashboardSidebar />
       <SidebarInset>
-        <header className="flex h-16 items-center gap-4 border-b px-6">
+        <header className="flex h-16 items-center gap-4 border-b px-6 top-0 bg-background">
           <SidebarTrigger />
           <Separator orientation="vertical" className="h-6" />
           <div className="flex-1">
             <h1 className="text-lg font-semibold">Dashboard</h1>
           </div>
         </header>
-        <main className="flex-1 p-6">{children}</main>
+        <main className="flex-1 p-6 bg-foreground">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   )

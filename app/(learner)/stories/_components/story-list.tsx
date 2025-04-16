@@ -1,6 +1,6 @@
 
 // import { storyList } from "@/lib/placeholders";
-import { PaginationWrapper } from '@/components/sections/pagination';
+import { PaginationWrapper } from '@/components/sections/content-pagination';
 import NoData from '@/components/sections/no-data';
 import Link from 'next/link';
 import { getStories } from '../_lib/actions';

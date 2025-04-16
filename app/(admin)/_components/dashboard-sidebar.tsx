@@ -50,7 +50,7 @@ export function DashboardSidebar() {
           isCollapsible: true,
           subItems: [
             { href: "/dashboard/videos", label: "All Videos" },
-            { href: "/dashboard/videos/published", label: "Published" },
+            // { href: "/dashboard/videos/published", label: "Published" },
             { href: "/dashboard/videos/upload", label: "Upload New" }
           ]
         },
@@ -60,7 +60,7 @@ export function DashboardSidebar() {
           isCollapsible: true,
           subItems: [
             { href: "/dashboard/stories", label: "All Stories" },
-            { href: "/dashboard/stories/published", label: "Published" },
+            // { href: "/dashboard/stories/published", label: "Published" },
             { href: "/dashboard/stories/create", label: "Create New" }
           ]
         },

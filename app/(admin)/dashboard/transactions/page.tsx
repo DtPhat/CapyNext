@@ -45,7 +45,7 @@ const TABLE_HEAD = ["Member", "Status", "Amount", "Date", "Action"];
 
 const TABLE_ROWS = subscribersData
 
-const totalPages = 4;
+const totalPages = 5;
 export default function SortableTable() {
   const [currentPage, setCurrentPage] = useState(1)
   return (

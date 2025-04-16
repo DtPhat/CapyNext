@@ -28,8 +28,8 @@ export default function VideoCard({ data: { _id, caption, channel, duration, thu
         >
           <img
             src={thumbnail}
-            alt="ui/ux review check"
-            className="transition duration-400 ease-in-out group-hover:scale-105"
+            alt="Thumbnail"
+            className="transition duration-400 ease-in-out group-hover:scale-105 size-max"
           />
           <div className="absolute-center hidden group-hover:block ">
             <PlayCircleIcon className="w-28 h-28 opacity-50" />
