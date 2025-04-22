@@ -1,13 +1,13 @@
 import { getVideo } from "../../_lib/action"
 import { VideoForm } from "../../_components/video-form"
 
-interface EditVideoPageProps {
+interface PageProps {
   params: {
     id: string
   }
 }
 
-export default async function EditVideoPage({ params }: EditVideoPageProps) {
+export default async function EditVideoPage({ params }: PageProps) {
   const video = await getVideo(params.id)
 
   if (!video) {
