@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { BarChart3, ChevronDown, Home, Image, LayoutDashboard, MessageSquare, Settings, Users, Video } from "lucide-react"
+import { ReactNode } from "react"
 
 import {
   Sidebar,
@@ -24,8 +25,24 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
 
+type SidebarItem = {
+  label: string
+  icon: ReactNode
+  href?: string
+  isCollapsible?: boolean
+  subItems?: Array<{
+    href: string
+    label: string
+  }>
+}
+
+type SidebarSection = {
+  label: string
+  items: SidebarItem[]
+}
+
 export function DashboardSidebar() {
-  const sidebarItems = [
+  const sidebarItems: SidebarSection[] = [
     {
       label: "Main",
       items: [
