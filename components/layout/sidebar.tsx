@@ -96,15 +96,15 @@ const navigationList = [
   //   route: "/save",
   //   index: 6
   // },
-  {
-    Icon: "/sidebar/user.png",
-    name: "Account",
-    route: "/account",
-    index: 7
-  },
+  // {
+  //   Icon: "/sidebar/user.png",
+  //   name: "Account",
+  //   route: "/account",
+  //   index: 7
+  // },
 ]
 export default function Sidebar() {
-  const [open, setOpen] = useState(0);
+  const [open, setOpen] = useState(1);
   const { userInfo, googleAuthenticate } = useAuth()
   const [openLogin, setOpenLogin] = useState(false)
   const [openPremium, setOpenPremium] = useState(false)
@@ -177,9 +177,9 @@ export default function Sidebar() {
                         </Typography>
                       </AccordionHeader>
                     </ListItem>
-                    <AccordionBody className="p-1 text-black flex flex-col gap-1 pl-1.5">
+                    <AccordionBody className="p-1 text-black flex flex-col gap-1 pl-1.5" >
                       {item.subPages.map(subItem =>
-                        <div key={subItem.index} onClick={(e) => handleAccess(e, subItem.route)} className="relative">
+                        <div key={subItem.index} onClick={(e) => handleAccess(e, subItem.route)} className="relative ml-0.5">
                           <ListItem selected={pathname.includes(subItem.route)}>
                             <ListItemPrefix>
                               <subItem.Icon className={`size-6 ${subItem.color} ${requringPremiumRoutes.includes(subItem.route) ? 'text-yellow-900' : ''}`}/>
@@ -195,7 +195,7 @@ export default function Sidebar() {
                       )}
                     </AccordionBody>
                   </Accordion >
-                  {item.route === '/game' && <hr className="my-2 border-black" />}
+                  {/* {item.route === '/game' && <hr className="my-2 border-black" />} */}
                 </div>
                 : <div onClick={(e) => handleAccess(e, item.route)} key={item.name}>
                   <ListItem selected={pathname.includes(item.route)}>

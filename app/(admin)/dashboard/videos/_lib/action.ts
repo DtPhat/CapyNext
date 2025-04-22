@@ -50,23 +50,6 @@ export const getVideo = async (id: string): Promise<Video | null> => {
 
 export const createVideo = async (video: CreateVideoPayload) => {
 
-  // const fakeData: Omit<Video, "_id"> = {
-  //   "caption": "123",
-  //   "category": "education",
-  //   "level": "beginner",
-  //   "channel": "1234",
-  //   "isPremium": false,
-  //   "videoId": "665656565656565656565656",
-  //   "duration": 100,
-  //   "thumbnail": "https://via.placeholder.com/150",
-  //   "transcripts": [
-  //     {
-  //       "sentence": "Hello world!",
-  //       "timestamp": 0,
-  //       "translation": "Bonjour le monde!"
-  //     }
-  //   ]
-  // }
   try {
     const response = await fetch(`${BASE_URL}/videos`, {
       method: 'POST',

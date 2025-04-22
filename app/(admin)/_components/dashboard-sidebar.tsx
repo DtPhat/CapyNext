@@ -34,11 +34,11 @@ export function DashboardSidebar() {
           icon: <Home className="size-4" />,
           label: "Overview"
         },
-        {
-          href: "/dashboard/analytics", 
-          icon: <BarChart3 className="size-4" />,
-          label: "Analytics"
-        }
+        // {
+        //   href: "/dashboard/analytics", 
+        //   icon: <BarChart3 className="size-4" />,
+        //   label: "Analytics"
+        // }
       ]
     },
     {
@@ -64,11 +64,11 @@ export function DashboardSidebar() {
             { href: "/dashboard/stories/create", label: "Create New" }
           ]
         },
-        {
-          href: "/dashboard/comments",
-          icon: <MessageSquare className="size-4" />,
-          label: "Comments"
-        }
+        // {
+        //   href: "/dashboard/comments",
+        //   icon: <MessageSquare className="size-4" />,
+        //   label: "Comments"
+        // }
       ]
     },
     {
