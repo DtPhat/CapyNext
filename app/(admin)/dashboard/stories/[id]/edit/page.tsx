@@ -1,13 +1,11 @@
 import { getStory } from "../../_lib/action"
 import { StoryForm } from "../../_components/story-form"
 
-interface PageProps {
-  params: {
-    id: string
-  }
-}
 
-export default async function EditStoryPage({ params }: PageProps) {
+
+export default async function EditStoryPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
+
   const story = await getStory(params.id)
 
   if (!story) {
