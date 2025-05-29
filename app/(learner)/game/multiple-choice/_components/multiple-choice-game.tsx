@@ -79,9 +79,9 @@ const MultipleChoiceGame = () => {
 		}
 	}, [selectedCard]);
 
-	if (isLoading || !data) return <RectangleSkeleton />;
+	if (isLoading) return <RectangleSkeleton />;
 
-	if (data?.length < 5) return (
+	if (!data || data?.length < 5) return (
 		<NoData text='The collection does not have enough vocabulary. Please add more
 		or select another collection!'/>
 	);

@@ -7,7 +7,7 @@ export const DisplayContext = createContext<DisplayContextProps>({
 export const DisplayProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname()
   useEffect(() => {
-    if(pathname == '/'){
+    if (pathname == '/') {
       setOpenSidebar(false)
     }
   }, []);

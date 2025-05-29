@@ -10,9 +10,9 @@ const FlashCardGame = () => {
   const { chosenCollection } = useContext(GameContext)
   const { data, isLoading } = useSWR<CollectionItem[]>('/vocabularies/' + chosenCollection?._id)
 
-  if (isLoading || !data) return <RectangleSkeleton />;
+  if (isLoading) return <RectangleSkeleton />;
 
-  if (!data.length) return (
+  if (!data?.length) return (
     <NoData text='The collection is empty. Please add more or select another collection!' />
   );
 

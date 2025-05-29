@@ -126,10 +126,11 @@ const MatchingGame = () => {
     setShouldWait(false);
   }, [selectedSourceCards, selectedTranslationCards]);
 
-  if (isLoading || !data) return <RectangleSkeleton />;
+  if (isLoading) return <RectangleSkeleton />;
 
-  if (data.length < 5) return (
-    <NoData text='The collection does not have enough vocabulary. Please add more
+  if (!data?.length) return (
+    <NoData 
+    text='The collection does not have enough vocabulary. Please add more
 		or select another collection!'/>
   );
 

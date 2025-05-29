@@ -12,7 +12,7 @@ const fontSans = FontSans({
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div 
+    <div
     // className={cn(
     //   "min-h-screen font-sans antialiased bg-background text-black",
     //   fontSans.variable

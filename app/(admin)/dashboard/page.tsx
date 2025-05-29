@@ -9,7 +9,6 @@ export default function DashboardPage() {
       <Card>
         <CardHeader className="pb-2">
           <CardTitle className="text-base font-medium">User Usage</CardTitle>
-          <CardDescription>User growth over time</CardDescription>
         </CardHeader>
         <CardContent className="h-[400px]">
           <OverviewChart />

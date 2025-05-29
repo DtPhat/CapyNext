@@ -81,6 +81,16 @@ export function DashboardSidebar() {
             { href: "/dashboard/stories/create", label: "Create New" }
           ]
         },
+        {
+          label: "Categories",
+          icon: <Image className="size-4" />,
+          isCollapsible: true,
+          subItems: [
+            { href: "/dashboard/categories", label: "All Categories" },
+            // { href: "/dashboard/stories/published", label: "Published" },
+            { href: "/dashboard/categories/create", label: "Create New" }
+          ]
+        },
         // {
         //   href: "/dashboard/comments",
         //   icon: <MessageSquare className="size-4" />,

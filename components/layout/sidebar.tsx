@@ -45,6 +45,12 @@ const navigationList = [
     route: "/stories",
     index: 2
   },
+  // {
+  //   Icon: "/sidebar/user.png",
+  //   name: "Conmpanions",
+  //   route: "/companies",
+  //   index: 2.5
+  // },
   {
     Icon: "/sidebar/game.png",
     name: "Games",
@@ -96,12 +102,6 @@ const navigationList = [
   //   route: "/save",
   //   index: 6
   // },
-  // {
-  //   Icon: "/sidebar/user.png",
-  //   name: "Account",
-  //   route: "/account",
-  //   index: 7
-  // },
 ]
 export default function Sidebar() {
   const [open, setOpen] = useState(1);
@@ -147,7 +147,7 @@ export default function Sidebar() {
 
 
   useEffect(() => {
-    
+
   }, [pathname]);
 
   return (
@@ -170,7 +170,7 @@ export default function Sidebar() {
                     <ListItem className="p-0" >
                       <AccordionHeader onClick={() => handleOpen(1)} className="border-b-0 p-3">
                         <ListItemPrefix>
-                          <img className="size-6" src={item.Icon}/>
+                          <img className="size-6" src={item.Icon} />
                         </ListItemPrefix>
                         <Typography className="mr-auto tracking-wide text-black">
                           {item.name}
@@ -179,10 +179,10 @@ export default function Sidebar() {
                     </ListItem>
                     <AccordionBody className="p-1 text-black flex flex-col gap-1 pl-1.5" >
                       {item.subPages.map(subItem =>
-                        <div key={subItem.index} onClick={(e) => handleAccess(e, subItem.route)} className="relative ml-0.5">
+                        <div key={subItem.index} onClick={(e) => handleAccess(e, subItem.route)} className="relative ml-1 border-l-2 hover:border-none">
                           <ListItem selected={pathname.includes(subItem.route)}>
                             <ListItemPrefix>
-                              <subItem.Icon className={`size-6 ${subItem.color} ${requringPremiumRoutes.includes(subItem.route) ? 'text-yellow-900' : ''}`}/>
+                              <subItem.Icon className={`size-6 ${subItem.color} ${requringPremiumRoutes.includes(subItem.route) ? 'text-yellow-900' : ''}`} />
                             </ListItemPrefix>
                             <Typography>
                               {subItem.name}
@@ -220,7 +220,7 @@ export default function Sidebar() {
       <PremiumDialog
         open={openPremium}
         handleOpen={handleOpenPremium}
-       />
+      />
     </div >
   );
 }

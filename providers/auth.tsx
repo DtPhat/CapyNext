@@ -1,5 +1,5 @@
 "use client"
-import { auth, provider } from '@/firebase/config';
+import { auth, provider } from '@/lib/firebase/config';
 import { BASE_URL } from '@/lib/constants';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { isNull } from 'lodash';
@@ -20,7 +20,7 @@ interface AuthContextType {
   token: string | null;
   login: (userInfo: UserInfo, token: string) => void;
   logout: () => void;
-  googleAuthenticate:  () => Promise<any>;
+  googleAuthenticate: () => Promise<any>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = (userInfo: UserInfo, token: string) => {
     if (!userInfo || !token) return;
     setUserInfo(userInfo);
-    if(userInfo.role == 'admin') {
+    if (userInfo.role == 'admin') {
       router.push('/dashboard')
     }
     setToken(token);
@@ -67,12 +67,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem('token');
   };
 
-  const googleAuthenticate = async () => 
+  const googleAuthenticate = async () =>
     signInWithPopup(auth, provider)
       .then(async (result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const googleToken = credential?.accessToken
-        console.log(googleToken)
+        console.log("Google token:", googleToken)
         if (googleToken) {
           const response = await fetch(`${BASE_URL}/auth/login/google`, {
             method: "POST",
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             body: JSON.stringify({ token: googleToken })
           })
             .then(response => response.json())
-          console.log("login response", response)
+          console.log("Login response:", response)
           login(response?.userInfo, response?.token)
         }
       }).catch((error) => {

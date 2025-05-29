@@ -54,6 +54,11 @@ export type Story = {
   isPremium: boolean
 }
 
+export type Category = {
+  _id: string,
+  name: string,
+}
+
 export type PaginatedData<T> = {
   data: T[];
   pagination: {

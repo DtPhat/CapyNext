@@ -1,13 +1,22 @@
+'use client'
 import type React from "react"
 import { DashboardSidebar } from "./_components/dashboard-sidebar"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator"
-
+import { useAuth } from "@/providers/auth"
+import { useRouter } from "next/navigation"
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const { userInfo } = useAuth()
+  const router = useRouter();
+
+  // if (!userInfo || userInfo.role !== 'admin') {
+  //   router.push('/')
+  //   return;
+  // }
   return (
     <SidebarProvider>
       <DashboardSidebar />
