@@ -9,10 +9,11 @@ import { FilterX } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { BarSkeleton } from "./sections/skeleton";
+import { Category } from "@/lib/definitions";
 
 interface MenuCheckboxProps {
   name: string,
-  checklist?: string[],
+  checklist?: string[] | Category[],
 }
 
 export function MenuCheckbox({ name, checklist }: MenuCheckboxProps) {
@@ -45,11 +46,11 @@ export function MenuCheckbox({ name, checklist }: MenuCheckboxProps) {
         value={paramState}
       >
         {
-          checklist?.map(item =>
+          checklist?.map((item) =>
             <Option
-              key={item}
-              value={item}>
-              {item}
+              key={typeof item === 'string' ? item : item._id}
+              value={typeof item === 'string' ? item : item._id}>
+              {typeof item === 'string' ? item : item.name}
             </Option>
           )
         }

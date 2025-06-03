@@ -25,7 +25,7 @@ export type Transcript = {
 export type Video = {
   _id: string,
   videoId: string,
-  category: string,
+  category?: Category,
   thumbnail: string,
   duration: number,
   caption: string,
@@ -47,7 +47,7 @@ export type Story = {
     text: string
   }[],
   display_image: string,
-  category?: string,
+  category?: Category,
   comment?: []
   level?: string
   updatedAt: string,

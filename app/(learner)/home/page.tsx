@@ -63,11 +63,11 @@ const Home = () => {
   return (
     <Suspense>
       <div className='w-full relative'>
-        <div className='absolute w-full h-[65vh] bg-black/50 bg-gradient-to-r from-primary/80 to-accent/40 '>
+        <div className='absolute w-full h-[52vh] bg-black/50 bg-gradient-to-r from-primary/80 to-accent/40 '>
           <div className='font-semibold flex justify-center h-full px-16 flex-col tracking-wide '>
-            <div className='text-5xl text-foreground'>LEARN & PLAY.</div>
-            <div className='text-4xl pt-2 text-white'>Start a joyful journey of mastering English.</div>
-            <div className='font-normal mt-6 text-3xl text-white/80'>Study English through most interesting stories and videos.</div>
+            <div className='text-4xl text-foreground'>LEARN & PLAY.</div>
+            <div className='text-3xl pt-2 text-white'>Start a joyful journey of mastering English.</div>
+            <div className='font-normal mt-6 text-2xl text-white/80'>Study English through most interesting stories and videos.</div>
             <div className='pt-12'>
               <HomeSearchBar placeholder='Search videos, stories,..' />
             </div>
@@ -128,7 +128,7 @@ const Home = () => {
           </Container>
         </div>
         <div className='w-full h-full'>
-          <Image src="/background.png" alt="background" className='w-full h-[65vh] object-cover' height={512} width={512} />
+          <Image src="/background.png" alt="background" className='w-full h-[52vh] object-cover' height={512} width={512} />
         </div>
       </div>
     </Suspense>

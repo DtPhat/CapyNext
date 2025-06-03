@@ -1,11 +1,13 @@
 "use client"
 
 import { useRouter } from "next/navigation"
+import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import { Story } from "@/lib/definitions"
+import { Story, Category } from "@/lib/definitions"
 import { updateStory, createStory } from "../_lib/action"
+import { getCategories } from "@/app/(learner)/categories/_lib/actions"
 import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
 import {
@@ -26,10 +28,14 @@ import {
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
+import { LEVEL_NUMBERS } from "@/lib/constants"
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  category: z.string().min(1, "Category is required"),
+  category: z.object({
+    _id: z.string().min(1, "Category ID is required"),
+    name: z.string().min(1, "Category name is required")
+  }),
   level: z.string().min(1, "Level is required"),
   author: z.string().min(1, "Author is required"),
   isPremium: z.boolean(),
@@ -46,11 +52,33 @@ export function StoryForm({ initialData }: StoryFormProps) {
   const router = useRouter()
   const { toast } = useToast()
 
+  const [categories, setCategories] = useState<Category[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await getCategories()
+        setCategories(data)
+      } catch (error) {
+        console.error('Error fetching categories:', error)
+        toast({
+          title: "Error",
+          description: "Failed to fetch categories",
+          variant: "destructive",
+        })
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchCategories()
+  }, [])
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: initialData?.title || "",
-      category: initialData?.category || "",
+      category: initialData?.category,
       level: initialData?.level || "",
       author: initialData?.author || "",
       isPremium: initialData?.isPremium || false,
@@ -62,11 +90,16 @@ export function StoryForm({ initialData }: StoryFormProps) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      const payload = {
+        ...values,
+        category: values.category._id
+      }
+      
       if (initialData) {
-        await updateStory(initialData._id, values)
+        await updateStory(initialData._id, payload)
         toast({ title: "Success", description: "Story updated successfully" })
       } else {
-        await createStory(values)
+        await createStory(payload)
         toast({ title: "Success", description: "Story created successfully" })
       }
       router.push("/dashboard/stories")
@@ -98,24 +131,28 @@ export function StoryForm({ initialData }: StoryFormProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Category</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
+              <FormControl>
+                <Select onValueChange={(value) => {
+                  // Convert string ID to Category object for form state
+                  const selectedCategory = categories.find(cat => cat._id === value);
+                  field.onChange(selectedCategory || { _id: '', name: '' });
+                }} defaultValue={field.value?._id}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {
-                    ["Science", "Culture", "Education", "Technology", "Entertainment", "History", "News", "Business", "Fantasy", "Adventure"]
-                      .map(category => <SelectItem
-                        key={category} value={category}
-                        className="capitalize"
-                      >
-                        {category}
-                      </SelectItem>)
-                  }
-                </SelectContent>
-              </Select>
+                  <SelectContent>
+                    {isLoading ? (
+                      <div className="text-gray-500 px-2 py-1">Loading categories...</div>
+                    ) : (
+                      categories.map((category) => (
+                        <SelectItem key={category._id} value={category._id}>
+                          {category.name}
+                        </SelectItem>
+                      ))
+                    )}
+                  </SelectContent>
+                </Select>
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -133,9 +170,13 @@ export function StoryForm({ initialData }: StoryFormProps) {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="beginner">Beginner</SelectItem>
-                  <SelectItem value="intermediate">Intermediate</SelectItem>
-                  <SelectItem value="advanced">Advanced</SelectItem>
+                  {
+                    Object.entries(LEVEL_NUMBERS).map(([key, value]) => (
+                      <SelectItem key={key} value={key}>
+                        {key}
+                      </SelectItem>
+                    ))
+                  }
                 </SelectContent>
               </Select>
               <FormMessage />

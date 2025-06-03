@@ -1,6 +1,6 @@
 
 
-export type CreateStoryPayload = {
+export type StoryPayload = {
   title: string;
   category: string;
   level: string;

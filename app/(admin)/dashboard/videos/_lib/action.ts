@@ -1,6 +1,6 @@
 import { BASE_URL } from "@/lib/constants";
 import { PaginatedData, Video } from "@/lib/definitions";
-import { CreateVideoPayload } from "./definition";
+import { VideoPayload } from "./definition";
 
 export const getVideos = async (
   title: string = "",
@@ -48,7 +48,7 @@ export const getVideo = async (id: string): Promise<Video | null> => {
   return response.json();
 };
 
-export const createVideo = async (video: CreateVideoPayload) => {
+export const createVideo = async (video: VideoPayload) => {
 
   try {
     const response = await fetch(`${BASE_URL}/videos`, {
@@ -84,7 +84,7 @@ export const deleteVideo = async (id: string): Promise<void> => {
   }
 };
 
-export const updateVideo = async (id: string, data: Partial<Video>): Promise<Video> => {
+export const updateVideo = async (id: string, data: Partial<VideoPayload>): Promise<VideoPayload> => {
   const response = await fetch(`${BASE_URL}/videos/${id}`, {
     method: 'PATCH',
     headers: {

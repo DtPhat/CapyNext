@@ -1,6 +1,7 @@
 "use client"
 
 import { DotsHorizontalIcon } from "@radix-ui/react-icons"
+import React from "react"
 import { Row } from "@tanstack/react-table"
 import { useRouter } from "next/navigation"
 
@@ -15,6 +16,7 @@ import {
 import { Category } from "@/lib/definitions"
 import { deleteCategory } from "../_lib/action"
 import { useToast } from "@/components/ui/use-toast"
+import { ConfirmDialog } from "@/app/(admin)/_components/confirm-dialog"
 
 interface DataTableRowActionsProps {
   row: Row<Category>
@@ -24,6 +26,8 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   const router = useRouter()
   const { toast } = useToast()
   const category = row.original
+
+  const [confirmOpen, setConfirmOpen] = React.useState(false)
 
   const handleDelete = async () => {
     try {
@@ -43,12 +47,13 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
-        >
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
+          >
           <DotsHorizontalIcon className="h-4 w-4" />
           <span className="sr-only">Open menu</span>
         </Button>
@@ -62,11 +67,20 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="text-destructive focus:text-destructive"
-          onClick={handleDelete}
+          onClick={() => setConfirmOpen(true)}
         >
           Delete
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+    <ConfirmDialog
+      open={confirmOpen}
+      onOpenChange={setConfirmOpen}
+      onConfirm={handleDelete}
+      title="Delete Category"
+      description={`Are you sure you want to delete the category "${category.name}"? This action cannot be undone.`}
+      confirmText="Delete Category"
+    />
+    </>
   )
 } 

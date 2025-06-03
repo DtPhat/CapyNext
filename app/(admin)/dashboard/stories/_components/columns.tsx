@@ -1,6 +1,6 @@
 "use client"
 import { ColumnDef } from "@tanstack/react-table"
-import { Story } from "@/lib/definitions"
+import { Category, Story } from "@/lib/definitions"
 import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
 import { DataTableRowActions } from "./data-table-row-actions"
@@ -40,7 +40,7 @@ export const columns: ColumnDef<Story>[] = [
     accessorKey: "category",
     header: "Category",
     cell: ({ row }) => (
-      <Badge variant="secondary">{row.getValue("category")}</Badge>
+      <Badge variant="secondary">{(row.getValue("category") as Category)?.name}</Badge>
     ),
   },
   {

@@ -1,6 +1,6 @@
 import { BASE_URL } from "@/lib/constants";
 import { PaginatedData, Story } from "@/lib/definitions";
-import { CreateStoryPayload } from "./definition";
+import { StoryPayload } from "./definition";
 
 export const getStories = async (
   title: string = "",
@@ -48,7 +48,7 @@ export const getStory = async (id: string): Promise<Story | null> => {
   return response.json();
 };
 
-export const createStory = async (story: CreateStoryPayload) => {
+export const createStory = async (story: StoryPayload) => {
   try {
     const response = await fetch(`${BASE_URL}/stories`, {
       method: 'POST',
@@ -83,7 +83,7 @@ export const deleteStory = async (id: string): Promise<void> => {
   }
 };
 
-export const updateStory = async (id: string, data: Partial<Story>): Promise<Story> => {
+export const updateStory = async (id: string, data: Partial<StoryPayload>): Promise<StoryPayload> => {
   const response = await fetch(`${BASE_URL}/stories/${id}`, {
     method: 'PATCH',
     headers: {

@@ -6,6 +6,7 @@ import { ENGLISH_LEVELS } from "@/lib/constants";
 import VideoList from "./_components/video-list";
 import { Suspense } from "react";
 import Loading from "../stories/loading";
+import { getCategories } from "../categories/_lib/actions";
 // import { PaginationWrapper } from "@/components/pagination";
 export default async function Videos({
   searchParams,
@@ -13,7 +14,7 @@ export default async function Videos({
   searchParams: Promise<{ [key: string]: string | undefined }>
 }) {
   const { title, category, level, page = 1, size = 9 } = await searchParams;
-
+  const categories = await getCategories()
   return (
     <div className="w-full">
       <div className="relative">
@@ -34,7 +35,7 @@ export default async function Videos({
             <SearchBar placeholder="Search videos..." />
           </div>
           <div className="flex justify-end items-center gap-4">
-            <FilterSelect name="category" checklist={["Science", "Culture", "Education", "Technology", "Entertainment", "History"]} />
+            <FilterSelect name="category" checklist={categories} />
             <FilterSelect name="level" checklist={ENGLISH_LEVELS} />
             <ClearFilter />
           </div>

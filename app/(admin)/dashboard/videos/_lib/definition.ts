@@ -1,7 +1,7 @@
 import { Transcript } from "@/lib/definitions";
 
 
-export type CreateVideoPayload = {
+export type VideoPayload = {
   caption: string;
   category: string;
   level: string;

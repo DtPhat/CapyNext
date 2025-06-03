@@ -4,8 +4,9 @@ import { useRouter } from "next/navigation"
 import { useForm, useFieldArray } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import { Video } from "@/lib/definitions"
+import { Video, Category } from "@/lib/definitions"
 import { updateVideo, createVideo, getParsedTranscript } from "../_lib/action"
+import { getCategories } from "@/app/(learner)/categories/_lib/actions"
 import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
 import { Button as MuiButton } from "@material-tailwind/react"
@@ -29,12 +30,16 @@ import { Switch } from "@/components/ui/switch"
 import ButtonIcon from "@/components/button-icon"
 import { PlusIcon, Sparkle, SparkleIcon, Trash, TrashIcon } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import TranscriptDialog from "./transcript-dialog"
+import { LEVEL_NUMBERS } from "@/lib/constants"
 
 const formSchema = z.object({
   caption: z.string().min(1, "Title is required"),
-  category: z.string().min(1, "Category is required"),
+  category: z.object({
+    _id: z.string().min(1, "Category ID is required"),
+    name: z.string().min(1, "Category name is required")
+  }),
   level: z.string().min(1, "Level is required"),
   channel: z.string().min(1, "Channel is required"),
   videoId: z.string().min(1, "Video ID is required"),
@@ -59,11 +64,34 @@ export function VideoForm({ initialData }: VideoFormProps) {
   const [isLoadingTranscript, setIsLoadingTranscript] = useState(false)
   const router = useRouter()
   const { toast } = useToast()
+
+  const [categories, setCategories] = useState<Category[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await getCategories()
+        setCategories(data)
+      } catch (error) {
+        console.error('Error fetching categories:', error)
+        toast({
+          title: "Error",
+          description: "Failed to fetch categories",
+          variant: "destructive",
+        })
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchCategories()
+  }, [])
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       caption: initialData?.caption || "",
-      category: initialData?.category || "",
+      category: initialData?.category,
       level: initialData?.level || "",
       channel: initialData?.channel || "",
       videoId: initialData?.videoId || "",
@@ -100,10 +128,10 @@ export function VideoForm({ initialData }: VideoFormProps) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       if (initialData) {
-        await updateVideo(initialData._id, values)
+        await updateVideo(initialData._id, { ...values, category: values.category._id })
         toast({ title: "Success", description: "Video updated successfully" })
       } else {
-        await createVideo(values)
+        await createVideo({ ...values, category: values.category._id })
         toast({ title: "Success", description: "Video created successfully" })
       }
       router.push("/dashboard/videos")
@@ -135,24 +163,28 @@ export function VideoForm({ initialData }: VideoFormProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Category</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
+              <FormControl>
+                <Select onValueChange={(value) => {
+                  // Convert string ID to Category object for form state
+                  const selectedCategory = categories.find(cat => cat._id === value);
+                  field.onChange(selectedCategory || { _id: '', name: '' });
+                }} defaultValue={field.value?._id}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {
-                    ["Science", "Culture", "Education", "Technology", "Entertainment", "History", "News", "Business", "Fantasy", "Adventure"]
-                      .map(category => <SelectItem
-                        key={category} value={category}
-                        className="capitalize"
-                      >
-                        {category}
-                      </SelectItem>)
-                  }
-                </SelectContent>
-              </Select>
+                  <SelectContent>
+                    {isLoading ? (
+                      <div className="text-gray-500 px-2 py-1">Loading categories...</div>
+                    ) : (
+                      categories.map((category) => (
+                        <SelectItem key={category._id} value={category._id}>
+                          {category.name}
+                        </SelectItem>
+                      ))
+                    )}
+                  </SelectContent>
+                </Select>
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -170,9 +202,13 @@ export function VideoForm({ initialData }: VideoFormProps) {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="beginner">Beginner</SelectItem>
-                  <SelectItem value="intermediate">Intermediate</SelectItem>
-                  <SelectItem value="advanced">Advanced</SelectItem>
+                  {
+                    Object.entries(LEVEL_NUMBERS).map(([key, value]) => (
+                      <SelectItem key={key} value={key}>
+                        {key}
+                      </SelectItem>
+                    ))
+                  }
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -256,11 +292,11 @@ export function VideoForm({ initialData }: VideoFormProps) {
             loading={isLoadingTranscript}
           />
           <div className="grid grid-cols-[1fr_100px_1fr_40px] gap-2 items-center font-medium text-sm px-1 mb-2">
-  <span>Sentence</span>
-  <span>Time</span>
-  <span>Translation</span>
-  <span></span>
-</div>
+            <span>Sentence</span>
+            <span>Time</span>
+            <span>Translation</span>
+            <span></span>
+          </div>
           {fields.map((field, index) => (
             <div key={field.id} className="grid grid-cols-[1fr_100px_1fr_40px] gap-2">
               <Input {...form.register(`transcripts.${index}.sentence`)} placeholder="Sentence" />
@@ -268,7 +304,7 @@ export function VideoForm({ initialData }: VideoFormProps) {
                 valueAsNumber: true,
               })} placeholder="Timestamp" />
               <Input {...form.register(`transcripts.${index}.translation`)} placeholder="Translation" />
-              <Button type="button" className="p-2" variant={"destructive"} onClick={() => remove(index)}><TrashIcon className=""/></Button>
+              <Button type="button" className="p-2" variant={"destructive"} onClick={() => remove(index)}><TrashIcon className="" /></Button>
             </div>
           ))}
         </div>
