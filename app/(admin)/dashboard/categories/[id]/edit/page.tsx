@@ -1,8 +1,8 @@
 import { getCategory } from "../../_lib/action"
 import { CategoryForm } from "../../_components/category-form"
 
-export default async function EditCategoryPage({ params }: { params: { id: string } }) {
-  const category = await getCategory(params.id)
+export default async function EditCategoryPage({ params }: { params: Promise<{ id: string }> }) {
+  const category = await getCategory((await params).id)
 
   if (!category) {
     return <div>Category not found</div>

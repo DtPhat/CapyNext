@@ -62,7 +62,7 @@ export const videoList: Video[] = [
     channel: "TED-ed",
     duration: 238,
     level: "Intermediate",
-    category: "Health",
+    // category: "Health",
     transcripts: [
 
     ],
@@ -76,7 +76,7 @@ export const videoList: Video[] = [
     channel: "TED-ed",
     duration: 200,
     level: "Beginner",
-    category: "History",
+    // category: "History",
     transcripts: [
 
     ],
@@ -90,7 +90,7 @@ export const videoList: Video[] = [
     channel: "TED-ed",
     duration: 120,
     level: "Beginner",
-    category: "Education",
+    // category: "Education",
     transcripts: [
 
     ],
