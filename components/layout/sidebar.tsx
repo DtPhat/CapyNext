@@ -179,7 +179,9 @@ export default function Sidebar() {
                     </ListItem>
                     <AccordionBody className="p-1 text-black flex flex-col gap-1 pl-1.5" >
                       {item.subPages.map(subItem =>
-                        <div key={subItem.index} onClick={(e) => handleAccess(e, subItem.route)} className="relative ml-1 border-l-2 hover:border-none">
+                        <div key={subItem.index} onClick={(e) => handleAccess(e, subItem.route)}
+                          className={`relative ml-1 hover:border-none ${pathname.includes(subItem.route) ? 'border-none' : 'border-l-2'}`}
+                        >
                           <ListItem selected={pathname.includes(subItem.route)}>
                             <ListItemPrefix>
                               <subItem.Icon className={`size-6 ${subItem.color} ${requringPremiumRoutes.includes(subItem.route) ? 'text-yellow-900' : ''}`} />

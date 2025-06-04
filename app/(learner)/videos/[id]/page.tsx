@@ -18,3 +18,9 @@ const Video = async (props: { params: Promise<{ id: string }> }) => {
 };
 
 export default Video;
+
+
+const TestSearchParams = async ({searchParams}: {searchParams: Promise<{id: string; name: string}>}) => {
+  const {id, name} = await searchParams;
+  console.log({id, name})
+}

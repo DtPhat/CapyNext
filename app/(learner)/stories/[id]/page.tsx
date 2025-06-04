@@ -11,16 +11,16 @@ export default async function Story(props: { params: Promise<{ id: string }> }) 
   const story: StoryType = await getStory(params.id)
   return (
     <Container>
-      <div className="relative rounded-md overflow-hidden">
+      <div className="absolute inset-0 z-5">
+        <img
+          src={story.display_image}
+          alt="Story background"
+          className="w-full h-[calc(100%+4rem)] object-cover"
+        />
+      </div>
+      <div className="rounded-md overflow-hidden z-10">
         {/* Background Image */}
-        <div className="absolute inset-0 z-5">
-          <img 
-            src={story.display_image} 
-            alt="Story background" 
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div className="relative z-10 bg-white/85 p-4">
+        <div className="z-100 bg-white/90 p-4 border rounded-md">
           <div className="flex justify-between gap-1 text text-black/90">
             <div>
               <p>Level: <span className="font-semibold">{story.level}</span></p>
